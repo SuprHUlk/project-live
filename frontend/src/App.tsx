@@ -12,10 +12,10 @@ function App() {
         id="mainbg"
       >
         <div className="">
-          <img src={i1} className="absolute top-[65vh] left-[10%]" />
-          <img src={i2} className="absolute top-[50vh] left-[30%]" />
-          <img src={i3} className="absolute top-[20vh] left-[1%]" />
-          <img src={bg} className="w-[40%] ml-20" />
+          <img src={i1} className="absolute top-[65vh] left-[10%] z-10" />
+          <img src={i2} className="absolute top-[50vh] left-[40%] z-20" />
+          <img src={i3} className="absolute top-[25vh] left-[5%] z-10" />
+          <img src={bg} className="w-[40%] absolute top-[30vh] left-[10%]" />
         </div>
       </div>
     </>
