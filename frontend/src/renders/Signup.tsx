@@ -1,7 +1,27 @@
 import { Button } from "@mui/material";
 import { FcGoogle } from "react-icons/fc";
 import { signup } from "../services/auth-service";
+import { useState } from "react";
 function Signup() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handlemail = (e: any) => {
+    setEmail(e.target.value);
+  };
+  const handlepassword = (e: any) => {
+    setPassword(e.target.value);
+  };
+  const handleusername = (e: any) => {
+    setName(e.target.value);
+  };
+
+  const handlesignup = () => {
+    console.log("username : ", name);
+    console.log("Email : ", email);
+    console.log("password : ", password);
+  };
   const chng = () => {
     var show = signup({
       username: "faiz",
@@ -20,21 +40,28 @@ function Signup() {
           <form className="w-[55%] h-[30vh]  flex flex-col gap-3 justify-center items-center border-b-[1px] ">
             <input
               type="text"
+              onChange={handleusername}
               placeholder="Username"
               className="h-[5vh] w-[100%] bg-transparent border-b-[2px] pl-5 text-white"
             ></input>
             <input
               type="email"
               placeholder="Email"
+              onChange={handlemail}
               className="h-[5vh] w-[100%] bg-transparent border-b-[2px] pl-5 text-white"
             ></input>
             <input
               type="password"
               placeholder="Password"
+              onChange={handlepassword}
               className="h-[5vh] w-[100%] bg-transparent border-b-[2px] pl-5 text-white"
             ></input>
             <div className="w-[100%] flex justify-center items-center mt-2">
-              <Button variant="contained" sx={{ width: "100%" }}>
+              <Button
+                variant="contained"
+                sx={{ width: "100%" }}
+                onClick={handlesignup}
+              >
                 Create an Account
               </Button>
             </div>
