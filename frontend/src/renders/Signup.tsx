@@ -3,12 +3,15 @@ import { FcGoogle } from "react-icons/fc";
 import { signup } from "../services/auth-service";
 function Signup() {
   const chng = () => {
-    var show = signup({
+    signup({
       username: "faiz",
       email: "faiz@gmail",
       password: "123456789",
-    });
-    console.log(show);
+    })
+    .then(res=>{
+      console.log(res);
+      
+    })
   };
   return (
     <>

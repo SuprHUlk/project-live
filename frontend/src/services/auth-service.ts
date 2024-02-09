@@ -1,6 +1,8 @@
 import axios from 'axios';
+import env from "dotenv";
 
-const API_URL = 'https://localhost:3000/auth';
+// const API_URL: string = process.env.REACT_APP_API_URL + '/auth';
+const API_URL: string = 'http://localhost:3000/auth';
 
 interface UserData {
     msg: string,

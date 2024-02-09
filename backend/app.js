@@ -35,6 +35,7 @@ app.use((req, res, next) => {
         
     if (req.method === 'OPTIONS') {
         console.log('Received OPTIONS request');
+        console.log(req);
         res.status(200).end();
     } 
     else {
