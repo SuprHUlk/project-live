@@ -18,3 +18,14 @@ export const login = async (loginData: {email: string, password: string}): Promi
         throw new Error('error');
     }
 }
+
+export const signup = async (signupData: {username: string, email: string, password: string}): Promise<{msg: string}> => {
+    try {
+        const res = await axios.post(API_URL + '/signup', signupData);
+        return res.data;
+    }
+    catch(err) {
+        console.log(err);
+        throw new Error('error');
+    }
+}
