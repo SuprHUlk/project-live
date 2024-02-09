@@ -58,6 +58,7 @@ function Signup() {
             ></input>
             <div className="w-[100%] flex justify-center items-center mt-2">
               <Button
+                type="submit"
                 variant="contained"
                 sx={{ width: "100%" }}
                 onClick={handlesignup}
