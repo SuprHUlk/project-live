@@ -1,6 +1,7 @@
 import { CiUser } from "react-icons/ci";
 import { useState } from "react";
 import Login from "../renders/Login";
+import Signup from "../renders/Signup";
 function Navbar() {
   // Show menu Function Here
   const [isMenuVisible, setMenuVisibility] = useState(false);
@@ -38,7 +39,8 @@ function Navbar() {
       >
         {/*  Here menu tab is added */}
       </div>
-      <Login />
+      {/* <Login /> */}
+      <Signup />
     </>
   );
 }
