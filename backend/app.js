@@ -2,6 +2,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
+const authRoute = require('./routes/authRoute');
+
 const app = express();
 
 require('dotenv').config();
@@ -43,10 +45,12 @@ app.use((req, res, next) => {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use((req, res, next) => {
-    res.status(200).json({
-        id: '21321321'
-    });
-})
+// app.use((req, res, next) => {
+//     res.status(200).json({
+//         id: '21321321'
+//     });
+// })
+
+app.use('/auth', authRoute);
 
 module.exports = app;
