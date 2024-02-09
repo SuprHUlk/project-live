@@ -1,6 +1,7 @@
 import { Button } from "@mui/material";
 import { FcGoogle } from "react-icons/fc";
 import { useState } from "react";
+
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -8,15 +9,29 @@ function Login() {
   const handleemail = (e: any) => {
     setEmail(e.target.value);
   };
+
   const handlepassword = (e: any) => {
     setPassword(e.target.value);
   };
 
-  const handleLogin = () => {
-    console.log(typeof email);
+  const handleLogin = (e: any) => {
+    e.preventDefault();
+
+    if (email.trim() === "" || !isValidEmail(email)) {
+      console.log("Error in the field");
+      return;
+    }
+
     console.log("Email:", email);
     console.log("Password:", password);
   };
+
+  const isValidEmail = (email: string) => {
+    // Regular expression to validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
   return (
     <>
       <div className="w-[40%] h-[80vh]  absolute top-[20vh] right-[5%]">
@@ -26,12 +41,14 @@ function Login() {
         <div className="w-[100%] h-[30vh]  flex justify-center items-center relative top-[1vh] ">
           <form className="w-[55%] h-[30vh]  flex flex-col gap-3 justify-center items-center border-b-[1px] ">
             <input
+              required
               type="email"
               placeholder="Email"
               onChange={handleemail}
               className="h-[5vh] w-[100%] bg-transparent border-b-[2px] pl-5 text-white"
             ></input>
             <input
+              required
               onChange={handlepassword}
               placeholder="Password"
               type="password"
@@ -59,4 +76,5 @@ function Login() {
     </>
   );
 }
+
 export default Login;

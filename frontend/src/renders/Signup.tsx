@@ -2,26 +2,44 @@ import { Button } from "@mui/material";
 import { FcGoogle } from "react-icons/fc";
 import { signup } from "../services/auth-service";
 import { useState } from "react";
+
 function Signup() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const handleusername = (e: any) => {
+    setName(e.target.value);
+  };
   const handlemail = (e: any) => {
     setEmail(e.target.value);
   };
   const handlepassword = (e: any) => {
     setPassword(e.target.value);
   };
-  const handleusername = (e: any) => {
-    setName(e.target.value);
-  };
 
   const handlesignup = () => {
-    console.log("username : ", name);
-    console.log("Email : ", email);
-    console.log("password : ", password);
+    if (
+      name.trim() === "" ||
+      email.trim() === "" ||
+      password.trim() === "" ||
+      !isValidEmail(email)
+    ) {
+      console.log("Error in the field");
+      return;
+    }
+
+    console.log("Username: ", name);
+    console.log("Email: ", email);
+    console.log("Password: ", password);
   };
+
+  const isValidEmail = (email: string) => {
+    // Regular expression to validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
   const chng = () => {
     var show = signup({
       username: "faiz",
@@ -30,6 +48,7 @@ function Signup() {
     });
     console.log(show);
   };
+
   return (
     <>
       <div className="w-[40%] h-[80vh]  absolute top-[20vh] right-[5%]">
@@ -78,4 +97,5 @@ function Signup() {
     </>
   );
 }
+
 export default Signup;
