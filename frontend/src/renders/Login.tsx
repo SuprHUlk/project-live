@@ -3,13 +3,16 @@ import { FcGoogle } from "react-icons/fc";
 import { useState } from "react";
 import { login } from "../services/auth-service";
 import Alert from "../components/Alert";
+import { useNavigate } from "react-router-dom";
+import { CircularProgress } from "@mui/material";
 
 function Login() {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
 
   const handleemail = (e: any) => {
     setEmail(e.target.value);
@@ -19,8 +22,11 @@ function Login() {
     setPassword(e.target.value);
   };
 
-  const handleClose = (event?: React.SyntheticEvent | Event , reason?: SnackbarCloseReason) => {
-    if (reason === 'clickaway') {
+  const handleClose = (
+    event?: React.SyntheticEvent | Event,
+    reason?: SnackbarCloseReason
+  ) => {
+    if (reason === "clickaway") {
       return;
     }
     setOpen(false);
@@ -29,7 +35,7 @@ function Login() {
   const openAlert = (message: string) => {
     setMessage(message);
     setOpen(true);
-  }
+  };
 
   const handleLogin = (e: any) => {
     e.preventDefault();
@@ -39,24 +45,27 @@ function Login() {
       return;
     }
 
-    loginCall({email: email, password: password}).then(res => {
-      if(res.msg === "Login successful") {
-        localStorage.setItem('idToken', res.idToken);
-        openAlert("Login successful");
+    loginCall({ email: email, password: password }).then(async (res) => {
+      if (res.msg === "Login successful") {
+        localStorage.setItem("idToken", res.idToken);
+        setLoading(true);
+        await new Promise((resolve) => setTimeout(resolve, 3000));
+        navigate("/loading");
+        await new Promise((resolve) => setTimeout(resolve, 3000));
+        navigate("/dashboard");
+
         reset();
-      }
-      else if(res.msg === "InvalidCredentials: Invalid email or password") {
+      } else if (res.msg === "InvalidCredentials: Invalid email or password") {
         openAlert("InvalidCredentials: Invalid email or password");
-      }
-      else {
+      } else {
         openAlert("UnknownError: Try again");
       }
-    })
+    });
   };
 
-  const loginCall = (loginData: {email: string, password: string}) => {
+  const loginCall = (loginData: { email: string; password: string }) => {
     return login(loginData);
-  }
+  };
 
   const isValidEmail = (email: string) => {
     // Regular expression to validate email format
@@ -65,8 +74,8 @@ function Login() {
   };
 
   const reset = () => {
-    setEmail('');
-    setPassword('');
+    setEmail("");
+    setPassword("");
   };
 
   return (
@@ -98,7 +107,11 @@ function Login() {
               sx={{ width: "100%" }}
               onClick={handleLogin}
             >
-              Log In
+              {loading ? (
+                <CircularProgress size={24} color="inherit" />
+              ) : (
+                "Log In"
+              )}
             </Button>
           </div>
         </form>

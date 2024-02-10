@@ -3,7 +3,6 @@ import { FcGoogle } from "react-icons/fc";
 import { signup } from "../services/auth-service";
 import { useState } from "react";
 import Alert from "../components/Alert";
-
 interface Props {
   onSuccessfulSignup: () => void;
 }
@@ -12,7 +11,6 @@ const Signup: React.FC<Props> = (props) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const [message, setMessage] = useState("");
   const [open, setOpen] = useState(false);
 
@@ -31,10 +29,13 @@ const Signup: React.FC<Props> = (props) => {
   const openSnackbar = (message: string) => {
     setMessage(message);
     setOpen(true);
-  } 
+  };
 
-  const handleClose = (event?: React.SyntheticEvent | Event , reason?: SnackbarCloseReason) => {
-    if (reason === 'clickaway') {
+  const handleClose = (
+    event?: React.SyntheticEvent | Event,
+    reason?: SnackbarCloseReason
+  ) => {
+    if (reason === "clickaway") {
       return;
     }
     setOpen(false);
@@ -51,19 +52,24 @@ const Signup: React.FC<Props> = (props) => {
       return;
     }
 
-    signupCall({ username: name, email: email, password: password }).then((res) => {
-      if (res.msg === "Signup successful") {
-        reset();
-        openSnackbar('Signup successful');
-        onSuccessfulSignup();
+    signupCall({ username: name, email: email, password: password }).then(
+      async (res) => {
+        if (res.msg === "Signup successful") {
+          reset();
+          openSnackbar("Signup successful");
+          onSuccessfulSignup();
+        } else if (res.msg === "ValidationError") {
+          openSnackbar("ValidationError: Email already exists");
+        } else if (
+          res.msg ===
+          "WeakPassword: Password length must be greater than 6 character"
+        ) {
+          openSnackbar(
+            "WeakPassword: Password length must be greater than 6 character"
+          );
+        }
       }
-      else if (res.msg === "ValidationError"){
-        openSnackbar("ValidationError: Email already exists");
-      }
-      else if(res.msg === "WeakPassword: Password length must be greater than 6 character"){
-        openSnackbar("WeakPassword: Password length must be greater than 6 character");
-      }
-    });
+    );
   };
 
   const isValidEmail = (email: string) => {
@@ -72,14 +78,18 @@ const Signup: React.FC<Props> = (props) => {
     return emailRegex.test(email);
   };
 
-  const signupCall = (signupData: { username: string, email: string, password: string}) => {
+  const signupCall = (signupData: {
+    username: string;
+    email: string;
+    password: string;
+  }) => {
     return signup(signupData);
   };
 
   const reset = () => {
-    setName('');
-    setEmail('');
-    setPassword('');
+    setName("");
+    setEmail("");
+    setPassword("");
   };
 
   return (
@@ -120,16 +130,13 @@ const Signup: React.FC<Props> = (props) => {
                 sx={{ width: "100%" }}
                 onClick={handlesignup}
               >
-                Create an Account
+                create an account
               </Button>
             </div>
           </form>
         </div>
         <div className="w-[100%] h-[10vh]  flex justify-center items-center relative ">
-          <Button
-            variant="outlined"
-            sx={{ width: "55%" }}
-          >
+          <Button variant="outlined" sx={{ width: "55%" }}>
             <FcGoogle className="mr-2 text-xl" />
             Sign Up with google
           </Button>
@@ -138,6 +145,6 @@ const Signup: React.FC<Props> = (props) => {
       <Alert open={open} handleClose={handleClose} message={message} />;
     </>
   );
-}
+};
 
 export default Signup;
