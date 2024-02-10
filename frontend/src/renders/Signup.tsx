@@ -2,11 +2,15 @@ import { Button } from "@mui/material";
 import { FcGoogle } from "react-icons/fc";
 import { signup } from "../services/auth-service";
 import { useState } from "react";
+import * as React from 'react';
+
+import Snackbar from '@mui/material/Snackbar';
 
 function Signup() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [open, setOpen] = React.useState(false);
 
   const handleusername = (e: any) => {
     setName(e.target.value);
@@ -17,6 +21,19 @@ function Signup() {
   const handlepassword = (e: any) => {
     setPassword(e.target.value);
   };
+
+  const handleClick = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event: any, reason: any) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
+
 
   const handlesignup = () => {
     if (
@@ -57,27 +74,27 @@ function Signup() {
         <div className="text-white w-[100%] h-[10vh] flex justify-center items-center text-3xl font-bold">
           Welcome to Project Live
         </div>
-        <div className="w-[100%] h-[40vh]  flex justify-center items-center relative top-[1vh] ">
-          <form className="w-[55%] h-[40vh]  flex flex-col gap-5 justify-center items-center border-b-[1px] ">
+        <div className="w-[100%] h-[30vh]  flex justify-center items-center relative top-[1vh] ">
+          <form className="w-[55%] h-[30vh]  flex flex-col gap-3 justify-center items-center border-b-[1px] ">
             <input
               type="text"
               onChange={handleusername}
               placeholder="Username"
-              className="h-[5vh] w-[100%] bg-transparent border-b-[2px] pl-5 text-white focus:outline-none"
+              className="h-[5vh] w-[100%] bg-transparent border-b-[2px] pl-5 text-white"
             ></input>
             <input
               type="email"
               placeholder="Email"
               onChange={handlemail}
-              className="h-[5vh] w-[100%] bg-transparent border-b-[2px] pl-5 text-white focus:outline-none"
+              className="h-[5vh] w-[100%] bg-transparent border-b-[2px] pl-5 text-white"
             ></input>
             <input
               type="password"
               placeholder="Password"
               onChange={handlepassword}
-              className="h-[5vh] w-[100%] bg-transparent border-b-[2px] pl-5 text-white focus:outline-none"
+              className="h-[5vh] w-[100%] bg-transparent border-b-[2px] pl-5 text-white"
             ></input>
-            <div className="w-[100%] flex justify-center items-center mt-5">
+            <div className="w-[100%] flex justify-center items-center mt-2">
               <Button
                 variant="contained"
                 sx={{ width: "100%" }}
@@ -89,12 +106,18 @@ function Signup() {
           </form>
         </div>
         <div className="w-[100%] h-[10vh]  flex justify-center items-center relative ">
-          <Button variant="outlined" sx={{ width: "55%" }} onClick={handlesignup}>
+          <Button variant="outlined" sx={{ width: "55%" }} onClick={handleClick}>
             <FcGoogle className="mr-2 text-xl" />
             Sign Up with google
           </Button>
         </div>
       </div>
+      <Snackbar
+        open={open}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        message="Note archived"
+      />
     </>
   );
 }

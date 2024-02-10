@@ -60,12 +60,6 @@ function Navbar() {
       </div>
       {showLogin && <Login />}
       {showSignup && <Signup />}
-      {/* <Snackbar
-        open={openSnackbar}
-        autoHideDuration={6000}
-        onClose={handleCloseSnackbar}
-        message='dasdsa'
-      /> */}
     </>
   );
 }
