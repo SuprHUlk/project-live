@@ -73,7 +73,7 @@ function Navbar() {
         )}
         {isDashboard && (
           <button className="text-white flex justify-start items-center w-[100%] h-[5vh] border-b-[1px] border-gray-600 hover:bg-slate-700">
-            <CiSettings className="m-2 text-xl" /> Setting
+            <CiSettings className="m-2 text-xl" /> Settings
           </button>
         )}
         {isDashboard && (
