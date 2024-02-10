@@ -1,12 +1,11 @@
-import { Button } from "@mui/material";
+import { Button, IconButton } from "@mui/material";
 import { FcGoogle } from "react-icons/fc";
 import { signup } from "../services/auth-service";
 import { useState } from "react";
-import * as React from 'react';
+import * as React from "react";
+import Alert from "../components/Alert";
 
-import Snackbar from '@mui/material/Snackbar';
-import IconButton from '@mui/material/IconButton';
-// import CloseIcon from '@mui/icons-material/Close';
+import Snackbar from "@mui/material/Snackbar";
 
 function Signup() {
   const [name, setName] = useState("");
@@ -31,7 +30,18 @@ function Signup() {
   const handleClose = () => {
     setOpen(false);
   };
-
+  const action = (
+    <>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleClose}
+      >
+        <p>X</p>
+      </IconButton>
+    </>
+  );
 
   const handlesignup = () => {
     if (
@@ -48,12 +58,11 @@ function Signup() {
     console.log("Email: ", email);
     console.log("Password: ", password);
 
-    chng({username: name, email: email, password: password})
-      .then(res=>{
-        if(res.msg === 'Signup successful') {
-          
-        }
-      })
+    chng({ username: name, email: email, password: password }).then((res) => {
+      if (res.msg === "Signup successful") {
+        <Alert message="HEllo" />;
+      }
+    });
   };
 
   const isValidEmail = (email: string) => {
@@ -62,8 +71,12 @@ function Signup() {
     return emailRegex.test(email);
   };
 
-  const chng = (signupData: {username: string, email: string, password: string}) => {
-    return signup(signupData)
+  const chng = (signupData: {
+    username: string;
+    email: string;
+    password: string;
+  }) => {
+    return signup(signupData);
   };
 
   const action = (
@@ -118,7 +131,11 @@ function Signup() {
           </form>
         </div>
         <div className="w-[100%] h-[10vh]  flex justify-center items-center relative ">
-          <Button variant="outlined" sx={{ width: "55%" }} onClick={handleClick}>
+          <Button
+            variant="outlined"
+            sx={{ width: "55%" }}
+            onClick={handleClick}
+          >
             <FcGoogle className="mr-2 text-xl" />
             Sign Up with google
           </Button>

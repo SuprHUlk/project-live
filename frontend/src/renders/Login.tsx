@@ -1,7 +1,7 @@
 import { Button } from "@mui/material";
 import { FcGoogle } from "react-icons/fc";
 import { useState } from "react";
-
+import Alert from "../components/Alert";
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -72,6 +72,7 @@ function Login() {
           </Button>
         </div>
       </div>
+      <Alert message="HEllo" />
     </>
   );
 }
