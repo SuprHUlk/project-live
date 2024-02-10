@@ -5,6 +5,8 @@ import { useState } from "react";
 import * as React from 'react';
 
 import Snackbar from '@mui/material/Snackbar';
+import IconButton from '@mui/material/IconButton';
+// import CloseIcon from '@mui/icons-material/Close';
 
 function Signup() {
   const [name, setName] = useState("");
@@ -26,11 +28,7 @@ function Signup() {
     setOpen(true);
   };
 
-  const handleClose = (event: any, reason: any) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-
+  const handleClose = () => {
     setOpen(false);
   };
 
@@ -67,6 +65,20 @@ function Signup() {
   const chng = (signupData: {username: string, email: string, password: string}) => {
     return signup(signupData)
   };
+
+  const action = (
+    <>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleClose}
+      >
+        <p>X</p>
+      </IconButton>
+    </>
+  );
+
 
   return (
     <>
@@ -117,6 +129,7 @@ function Signup() {
         autoHideDuration={6000}
         onClose={handleClose}
         message="Note archived"
+        action={action}
       />
     </>
   );
