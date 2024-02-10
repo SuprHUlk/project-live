@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
 const authRoute = require('./routes/authRoute');
+const verifyRoutes = require('./routes/verifyRoutes');
 
 const app = express();
 
@@ -52,5 +53,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // })
 
 app.use('/auth', authRoute);
+app.use('/verify', verifyRoutes);
 
 module.exports = app;

@@ -1,6 +1,7 @@
 import axios from 'axios';
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
-import { auth } from "../resources/firebase-config"
+import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { auth } from "../resources/firebase-config";
+import { NavigateFunction } from 'react-router-dom';
 
 const API_URL: string = 'http://localhost:3000/auth';
 
@@ -38,6 +39,11 @@ export const googleSignIn = async () => {
     catch(err) {
         return {msg: 'UnknownError: Try again'};
     }
+}
+
+export const logout = (navigate: NavigateFunction) => {
+    localStorage.clear();
+    navigate("/");
 }
 
 const onSuccessfulGoogleSignIn = async (signupData: {username: string, email: string}) => {

@@ -3,6 +3,9 @@ import { useState } from "react";
 import { useLocation } from "react-router-dom"; // Import useLocation hook
 import Login from "../renders/Login";
 import Signup from "../renders/Signup";
+import { logout } from "../services/auth-service";
+import { useNavigate } from "react-router-dom";
+
 function Navbar() {
   const location = useLocation(); // Get the current location
   const isDashboard = location.pathname === "/dashboard";
@@ -11,9 +14,15 @@ function Navbar() {
   const [showLogin, setShowLogin] = useState(true); // Set to true initially
   const [showSignup, setShowSignup] = useState(false);
 
+  const navigate = useNavigate();
+
   const showmenubtn = () => {
     setMenuVisibility(!isMenuVisible);
   };
+
+  const handleLogout = () => {
+    logout(navigate);
+  }
 
   const toggle = (app: string) => {
     if(app === 'login') {
@@ -78,7 +87,7 @@ function Navbar() {
           </button>
         )}
         {isDashboard && (
-          <button className="text-white flex justify-start items-center w-[100%] h-[5vh] hover:bg-slate-700">
+          <button className="text-white flex justify-start items-center w-[100%] h-[5vh] hover:bg-slate-700" onClick={handleLogout}>
             <CiLogout className="m-2 text-xl" /> Logout
           </button>
         )}

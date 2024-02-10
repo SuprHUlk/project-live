@@ -49,6 +49,7 @@ function Login() {
     loginCall({ email: email, password: password }).then(async (res) => {
       if (res.msg === "Login successful") {
         localStorage.setItem("idToken", res.idToken);
+        localStorage.setItem("username", res.username);
         setLoading(true);
         await new Promise((resolve) => setTimeout(resolve, 3000));
         navigate("/loading");
@@ -65,12 +66,14 @@ function Login() {
   };
 
   const onGoogleSignIn = () => {
-    googleSignIn().then(res => {
+    googleSignIn().then(async (res) => {
 
       if(res.msg === "Login successful") {
         localStorage.setItem('idToken', res.idToken);
         localStorage.setItem('username', res.username);
-        openAlert("Login successful");
+        navigate("/loading");
+        await new Promise((resolve) => setTimeout(resolve, 3000));
+        navigate("/dashboard");
       }
       else {
         openAlert("UnknownError: Try again");

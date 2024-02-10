@@ -1,16 +1,27 @@
+import React from 'react';
 import ReactDOM from "react-dom/client";
-import App from "./App.tsx";
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import App from './App';
 import "./index.css";
-import Dashboard from "./components/Dashboard.tsx";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import Loading from "./components/Loading.tsx";
 
-const router = createBrowserRouter([
-  { path: "/", element: <App /> },
-  { path: "/dashboard", element: <Dashboard /> },
-  { path: "/loading", element: <Loading /> },
-]);
+import Dashboard from './components/Dashboard';
+import Loading from './components/Loading';
+import PrivateRoutes from './resources/PrivateRoutes';
 
-ReactDOM.createRoot(document.getElementById("root")!).render(
-  <RouterProvider router={router} />
-);
+const Main: React.FC = () => {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<App />} />
+        <Route path="/loading" element={<Loading />} />
+
+        <Route element={<PrivateRoutes />}>
+          <Route path="/dashboard" element={<Dashboard />} />
+        </Route>
+
+      </Routes>
+    </Router>
+  );
+};
+
+ReactDOM.createRoot(document.getElementById('root')!).render(<Main />);

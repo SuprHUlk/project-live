@@ -3,6 +3,8 @@ import { FcGoogle } from "react-icons/fc";
 import { signup } from "../services/auth-service";
 import { useState } from "react";
 import Alert from "../components/Alert";
+import { CircularProgress } from "@mui/material";
+
 interface Props {
   onSuccessfulSignup: () => void;
 }
@@ -13,6 +15,7 @@ const Signup: React.FC<Props> = (props) => {
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const { onSuccessfulSignup } = props;
 
@@ -52,12 +55,14 @@ const Signup: React.FC<Props> = (props) => {
       return;
     }
 
+    setLoading(true);
+
     signupCall({ username: name, email: email, password: password }).then(
-      async (res) => {
+      (res) => {
         if (res.msg === "Signup successful") {
-          reset();
-          openSnackbar("Signup successful");
+          setLoading(false);
           onSuccessfulSignup();
+          reset();
         } else if (res.msg === "ValidationError") {
           openSnackbar("ValidationError: Email already exists");
         } else if (
@@ -68,6 +73,7 @@ const Signup: React.FC<Props> = (props) => {
             "WeakPassword: Password length must be greater than 6 character"
           );
         }
+        setLoading(false);
       }
     );
   };
@@ -130,7 +136,12 @@ const Signup: React.FC<Props> = (props) => {
                 sx={{ width: "100%" }}
                 onClick={handlesignup}
               >
-                create an account
+                {loading ? (
+                <CircularProgress size={24} color="inherit" />
+              ) : (
+                "create an account"
+              )}
+                
               </Button>
             </div>
           </form>
