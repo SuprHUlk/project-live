@@ -22,6 +22,7 @@ function Navbar() {
     setShowLogin(false);
   };
 
+
   return (
     <>
       <div className="w-[100%] h-[8vh] bg-[#18181B] absolute top-0 flex justify-between items-center shadow-md shadow-black">
@@ -57,9 +58,14 @@ function Navbar() {
       >
         {/* Here menu tab is added */}
       </div>
-
       {showLogin && <Login />}
       {showSignup && <Signup />}
+      {/* <Snackbar
+        open={openSnackbar}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+        message='dasdsa'
+      /> */}
     </>
   );
 }

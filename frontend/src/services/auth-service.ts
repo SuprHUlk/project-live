@@ -1,5 +1,5 @@
 import axios from 'axios';
-import env from "dotenv";
+// import env from "dotenv";
 
 // const API_URL: string = process.env.REACT_APP_API_URL + '/auth';
 const API_URL: string = 'http://localhost:3000/auth';
@@ -26,8 +26,7 @@ export const signup = async (signupData: {username: string, email: string, passw
         const res = await axios.post(API_URL + '/signup', signupData);
         return res.data;
     }
-    catch(err) {
-        console.log(err);
-        throw new Error('error');
+    catch(err: any) {
+        return {msg: err.response.data.error.name}
     }
 }

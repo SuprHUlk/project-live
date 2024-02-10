@@ -32,6 +32,13 @@ function Signup() {
     console.log("Username: ", name);
     console.log("Email: ", email);
     console.log("Password: ", password);
+
+    chng({username: name, email: email, password: password})
+      .then(res=>{
+        if(res.msg === 'Signup successful') {
+          
+        }
+      })
   };
 
   const isValidEmail = (email: string) => {
@@ -40,16 +47,8 @@ function Signup() {
     return emailRegex.test(email);
   };
 
-  const chng = () => {
-    signup({
-      username: "faiz",
-      email: "faiz@gmail",
-      password: "123456789",
-    })
-    .then(res=>{
-      console.log(res);
-      
-    })
+  const chng = (signupData: {username: string, email: string, password: string}) => {
+    return signup(signupData)
   };
 
   return (
@@ -80,7 +79,6 @@ function Signup() {
             ></input>
             <div className="w-[100%] flex justify-center items-center mt-2">
               <Button
-                type="submit"
                 variant="contained"
                 sx={{ width: "100%" }}
                 onClick={handlesignup}
@@ -91,7 +89,7 @@ function Signup() {
           </form>
         </div>
         <div className="w-[100%] h-[10vh]  flex justify-center items-center relative ">
-          <Button variant="outlined" sx={{ width: "55%" }} onClick={chng}>
+          <Button variant="outlined" sx={{ width: "55%" }} onClick={handlesignup}>
             <FcGoogle className="mr-2 text-xl" />
             Sign Up with google
           </Button>
