@@ -6,6 +6,39 @@ const userModel = require("../models/userModel");
 
 const router = express.Router();
 
+router.post("/google", async (req, res, next) => {
+  try {
+    let fetchedUser = await userModel.findOne({ email: req.body.email });
+
+    //if user exists
+    if(fetchedUser) {
+      const token = getToken(fetchedUser.email, fetchedUser._id, fetchedUser.username);
+
+      return res.status(200).json({
+        msg: "Login successful",
+        idToken: token,
+        username: fetchedUser.username
+      });
+    }
+
+    //if user doesn't exist
+    const result = await saveUser(req.body.username, req.body.email, process.env.SECRET);
+    fetchedUser = await userModel.findOne({ email: req.body.email });
+    const token = getToken(fetchedUser.email, fetchedUser._id, fetchedUser.username);
+
+    return res.status(201).json({
+      msg: "Login successful",
+      idToken: token
+    });
+  }
+  catch {
+    return res.status(500).json({
+      msg: "Login unsuccessful",
+      error: err,
+    });
+  }
+})
+
 router.post("/login", async (req, res, next) => {
   try {
     let fetchedUser = await userModel.findOne({ email: req.body.email });
@@ -30,19 +63,7 @@ router.post("/login", async (req, res, next) => {
       });
     }
 
-    const SECRET = process.env.SECRET;
-
-    const token = jwt.sign(
-      {
-        email: fetchedUser.email,
-        userId: fetchedUser._id,
-        username: fetchedUser.username,
-      },
-      SECRET,
-      {
-        expiresIn: "5h",
-      }
-    );
+    const token = getToken(fetchedUser.email, fetchedUser._id, fetchedUser.username);
 
     return res.status(200).json({
       msg: "Login successful",
@@ -66,15 +87,7 @@ router.post("/signup", async (req, res, next) => {
       });
     }
 
-    const hashedPassword = await bcrypt.hash(req.body.password, 10);
-
-    const data = new userModel({
-      username: req.body.username,
-      email: req.body.email,
-      password: hashedPassword,
-    });
-
-    const result = await data.save();
+    const result = await saveUser(req.body.username, req.body.email, req.body.password);
 
     return res.status(201).json({
       msg: "Signup successful",
@@ -87,5 +100,42 @@ router.post("/signup", async (req, res, next) => {
     });
   }
 });
+
+const getToken = (email, userId, username) => {
+  const SECRET = process.env.SECRET;
+
+  const token = jwt.sign(
+    {
+      email: email,
+      userId: userId,
+      username: username,
+    },
+    SECRET,
+    {
+      expiresIn: "1h",
+    }
+  );
+
+  return token;
+}
+
+const saveUser = async (username, email, password) => {
+  try {
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const data = new userModel({
+      username: username,
+      email: email,
+      password: hashedPassword,
+    });
+
+    const result = await data.save();
+
+    return result;
+  }
+  catch(err) {
+    throw err;
+  }
+}
 
 module.exports = router;

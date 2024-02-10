@@ -2,6 +2,7 @@ import { Button, SnackbarCloseReason } from "@mui/material";
 import { FcGoogle } from "react-icons/fc";
 import { useState } from "react";
 import { login } from "../services/auth-service";
+import { googleSignIn } from "../services/auth-service";
 import Alert from "../components/Alert";
 
 function Login() {
@@ -42,6 +43,7 @@ function Login() {
     loginCall({email: email, password: password}).then(res => {
       if(res.msg === "Login successful") {
         localStorage.setItem('idToken', res.idToken);
+        localStorage.setItem('username', res.username);
         openAlert("Login successful");
         reset();
       }
@@ -53,6 +55,21 @@ function Login() {
       }
     })
   };
+
+  const onGoogleSignIn = () => {
+    googleSignIn().then(res => {
+
+      if(res.msg === "Login successful") {
+        localStorage.setItem('idToken', res.idToken);
+        localStorage.setItem('username', res.username);
+        openAlert("Login successful");
+      }
+      else {
+        openAlert("UnknownError: Try again");
+      }
+    })
+      
+  } 
 
   const loginCall = (loginData: {email: string, password: string}) => {
     return login(loginData);
@@ -104,7 +121,7 @@ function Login() {
         </form>
       </div>
       <div className="w-[100%] h-[10vh]  flex justify-center items-center relative ">
-        <Button variant="outlined" sx={{ width: "55%" }}>
+        <Button variant="outlined" sx={{ width: "55%" }} onClick={onGoogleSignIn}>
           <FcGoogle className="mr-2 text-xl" />
           Log In with google
         </Button>

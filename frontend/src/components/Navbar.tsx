@@ -12,14 +12,14 @@ function Navbar() {
     setMenuVisibility(!isMenuVisible);
   };
 
-  const toggle = () => {
-    if(showLogin) {
-      setShowSignup(true);
-      setShowLogin(false);
-    }
-    else {
+  const toggle = (app: string) => {
+    if(app === 'login') {
       setShowLogin(true);
       setShowSignup(false);
+    } 
+    else {
+      setShowSignup(true);
+      setShowLogin(false);
     }
   }
 
@@ -32,13 +32,13 @@ function Navbar() {
         <div className="w-[20%] h-[8vh]  flex justify-center gap-4 items-center ">
           <button
             className="w-[25%] h-8 bg-[#2F2F35] rounded-md text-white shadow-2xl border-[1px] border-black hover:bg-[#414146]"
-            onClick={toggle}
+            onClick={() => toggle('login')}
           >
             Log In
           </button>
           <button
             className="w-[25%] h-8 bg-blue-600 rounded-md text-white shadow-2xl border-[1px] border-black hover:bg-blue-800"
-            onClick={toggle}
+            onClick={() => toggle('signup')}
           >
             Sign Up
           </button>
@@ -59,7 +59,7 @@ function Navbar() {
         {/* Here menu tab is added */}
       </div>
       {showLogin && <Login />}
-      {showSignup && <Signup onSuccessfulSignup={toggle} />}
+      {showSignup && <Signup onSuccessfulSignup={() => toggle('login')} />}
     </>
   );
 }

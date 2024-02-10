@@ -1,9 +1,8 @@
 import axios from 'axios';
-// import env from "dotenv";
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { auth } from "../resources/firebase-config"
 
-// const API_URL: string = process.env.REACT_APP_API_URL + '/auth';
 const API_URL: string = 'http://localhost:3000/auth';
-
 
 export const login = async (loginData: {email: string, password: string}): Promise<any> => {
     try {
@@ -26,4 +25,27 @@ export const signup = async (signupData: {username: string, email: string, passw
         }
         return {msg: err.response.data.msg}
     }
+}
+
+export const googleSignIn = async () => {
+    const provider = new GoogleAuthProvider();
+
+    try {
+        const googleSignIn = await signInWithPopup(auth, provider);
+
+        return await onSuccessfulGoogleSignIn({username: googleSignIn.user.displayName!, email: googleSignIn.user.email!});
+    }
+    catch(err) {
+        return {msg: 'UnknownError: Try again'};
+    }
+}
+
+const onSuccessfulGoogleSignIn = async (signupData: {username: string, email: string}) => {
+    try {
+        const res = await axios.post(API_URL + '/google', signupData);
+        return res.data;
+    }
+    catch(err) {
+        return {msg: 'UnknownError: Try again'};
+    } 
 }
