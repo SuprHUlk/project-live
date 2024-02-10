@@ -4,17 +4,21 @@ import CloseIcon from '@mui/icons-material/Close';
 interface Props {
   message: string;
   handleClose: () => void;
-  open: boolean
+  open: boolean;
 }
 
 const Alert: React.FC<Props> = (props) => {
-
   const { message, handleClose, open } = props;
 
   const action = (
     <>
-      <IconButton size="small" aria-label="close" color="inherit" onClick={handleClose}>
-        <CloseIcon/>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleClose}
+      >
+        <CloseIcon />
       </IconButton>
     </>
   );
@@ -22,7 +26,7 @@ const Alert: React.FC<Props> = (props) => {
   return (
     <>
       <Snackbar
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
         open={open}
         onClose={handleClose}
         autoHideDuration={5000}
