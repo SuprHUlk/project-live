@@ -2,7 +2,6 @@ import { Button } from "@mui/material";
 import { FcGoogle } from "react-icons/fc";
 import { signup } from "../services/auth-service";
 import { useState } from "react";
-import { CiUser, CiLock, CiMail } from "react-icons/ci";
 
 function Signup() {
   const [name, setName] = useState("");

@@ -1,7 +1,6 @@
 import { Button } from "@mui/material";
 import { FcGoogle } from "react-icons/fc";
 import { useState } from "react";
-import { CiUser } from "react-icons/ci";
 
 function Login() {
   const [email, setEmail] = useState("");
