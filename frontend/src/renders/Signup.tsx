@@ -1,17 +1,22 @@
-import { Button, IconButton } from "@mui/material";
+import { Button, SnackbarCloseReason } from "@mui/material";
 import { FcGoogle } from "react-icons/fc";
 import { signup } from "../services/auth-service";
 import { useState } from "react";
-import * as React from "react";
 import Alert from "../components/Alert";
 
-import Snackbar from "@mui/material/Snackbar";
+interface Props {
+  onSuccessfulSignup: () => void;
+}
 
-function Signup() {
+const Signup: React.FC<Props> = (props) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [open, setOpen] = React.useState(false);
+
+  const [message, setMessage] = useState("");
+  const [open, setOpen] = useState(false);
+
+  const { onSuccessfulSignup } = props;
 
   const handleusername = (e: any) => {
     setName(e.target.value);
@@ -23,25 +28,17 @@ function Signup() {
     setPassword(e.target.value);
   };
 
-  const handleClick = () => {
+  const openSnackbar = (message: string) => {
+    setMessage(message);
     setOpen(true);
-  };
+  } 
 
-  const handleClose = () => {
+  const handleClose = (event?: React.SyntheticEvent | Event , reason?: SnackbarCloseReason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
     setOpen(false);
   };
-  const action = (
-    <>
-      <IconButton
-        size="small"
-        aria-label="close"
-        color="inherit"
-        onClick={handleClose}
-      >
-        <p>X</p>
-      </IconButton>
-    </>
-  );
 
   const handlesignup = () => {
     if (
@@ -50,17 +47,21 @@ function Signup() {
       password.trim() === "" ||
       !isValidEmail(email)
     ) {
-      console.log("Error in the field");
+      openSnackbar("Please fill all the fields with valid values");
       return;
     }
 
-    console.log("Username: ", name);
-    console.log("Email: ", email);
-    console.log("Password: ", password);
-
-    chng({ username: name, email: email, password: password }).then((res) => {
+    signupCall({ username: name, email: email, password: password }).then((res) => {
       if (res.msg === "Signup successful") {
-        <Alert message="HEllo" />;
+        reset();
+        openSnackbar('Signup successful');
+        onSuccessfulSignup();
+      }
+      else if (res.msg === "ValidationError"){
+        openSnackbar("ValidationError: Email already exists");
+      }
+      else if(res.msg === "WeakPassword: Password length must be greater than 6 character"){
+        openSnackbar("WeakPassword: Password length must be greater than 6 character");
       }
     });
   };
@@ -71,27 +72,15 @@ function Signup() {
     return emailRegex.test(email);
   };
 
-  const chng = (signupData: {
-    username: string;
-    email: string;
-    password: string;
-  }) => {
+  const signupCall = (signupData: { username: string, email: string, password: string}) => {
     return signup(signupData);
   };
 
-  const action = (
-    <>
-      <IconButton
-        size="small"
-        aria-label="close"
-        color="inherit"
-        onClick={handleClose}
-      >
-        <p>X</p>
-      </IconButton>
-    </>
-  );
-
+  const reset = () => {
+    setName('');
+    setEmail('');
+    setPassword('');
+  };
 
   return (
     <>
@@ -102,22 +91,28 @@ function Signup() {
         <div className="w-[100%] h-[30vh]  flex justify-center items-center relative top-[1vh] ">
           <form className="w-[55%] h-[30vh]  flex flex-col gap-3 justify-center items-center border-b-[1px] ">
             <input
+              value={name}
               type="text"
               onChange={handleusername}
               placeholder="Username"
               className="h-[5vh] w-[100%] bg-transparent border-b-[2px] pl-5 text-white"
+              required
             ></input>
             <input
+              value={email}
               type="email"
               placeholder="Email"
               onChange={handlemail}
               className="h-[5vh] w-[100%] bg-transparent border-b-[2px] pl-5 text-white"
+              required
             ></input>
             <input
+              value={password}
               type="password"
               placeholder="Password"
               onChange={handlepassword}
               className="h-[5vh] w-[100%] bg-transparent border-b-[2px] pl-5 text-white"
+              required
             ></input>
             <div className="w-[100%] flex justify-center items-center mt-2">
               <Button
@@ -134,20 +129,13 @@ function Signup() {
           <Button
             variant="outlined"
             sx={{ width: "55%" }}
-            onClick={handleClick}
           >
             <FcGoogle className="mr-2 text-xl" />
             Sign Up with google
           </Button>
         </div>
       </div>
-      <Snackbar
-        open={open}
-        autoHideDuration={6000}
-        onClose={handleClose}
-        message="Note archived"
-        action={action}
-      />
+      <Alert open={open} handleClose={handleClose} message={message} />;
     </>
   );
 }

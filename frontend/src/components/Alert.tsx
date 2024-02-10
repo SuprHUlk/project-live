@@ -1,38 +1,36 @@
-import { IconButton } from "@mui/material";
-import Snackbar from "@mui/material/Snackbar";
-import * as React from "react";
-function Alert(props: any) {
-  console.log(props.message);
-  const [open, setOpen] = React.useState(false);
-  //   const handleClick = () => {
-  //     setOpen(true);
-  //   };
+import { Snackbar, IconButton, SnackbarCloseReason } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 
-  const handleClose = () => {
-    setOpen(false);
-  };
+interface Props {
+  message: string;
+  handleClose: () => void;
+  open: boolean
+}
+
+const Alert: React.FC<Props> = (props) => {
+
+  const { message, handleClose, open } = props;
+
   const action = (
     <>
-      <IconButton
-        size="small"
-        aria-label="close"
-        color="inherit"
-        onClick={handleClose}
-      >
-        <p>X</p>
+      <IconButton size="small" aria-label="close" color="inherit" onClick={handleClose}>
+        <CloseIcon/>
       </IconButton>
     </>
   );
+
   return (
     <>
       <Snackbar
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
         open={open}
-        autoHideDuration={6000}
         onClose={handleClose}
-        message={props.message}
+        autoHideDuration={5000}
+        message={message}
         action={action}
       />
     </>
   );
-}
+};
+
 export default Alert;

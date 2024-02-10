@@ -60,7 +60,6 @@ router.post("/login", async (req, res, next) => {
 router.post("/signup", async (req, res, next) => {
   try {
     //password length weak
-    console.log(req.body);
     if (req.body.password.length < 6) {
       return res.status(400).json({
         msg: "WeakPassword: Password length must be greater than 6 character",
