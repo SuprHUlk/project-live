@@ -57,27 +57,27 @@ function Signup() {
         <div className="text-white w-[100%] h-[10vh] flex justify-center items-center text-3xl font-bold">
           Welcome to Project Live
         </div>
-        <div className="w-[100%] h-[30vh]  flex justify-center items-center relative top-[1vh] ">
-          <form className="w-[55%] h-[30vh]  flex flex-col gap-3 justify-center items-center border-b-[1px] ">
+        <div className="w-[100%] h-[40vh]  flex justify-center items-center relative top-[1vh] ">
+          <form className="w-[55%] h-[40vh]  flex flex-col gap-5 justify-center items-center border-b-[1px] ">
             <input
               type="text"
               onChange={handleusername}
               placeholder="Username"
-              className="h-[5vh] w-[100%] bg-transparent border-b-[2px] pl-5 text-white"
+              className="h-[5vh] w-[100%] bg-transparent border-b-[2px] pl-5 text-white focus:outline-none"
             ></input>
             <input
               type="email"
               placeholder="Email"
               onChange={handlemail}
-              className="h-[5vh] w-[100%] bg-transparent border-b-[2px] pl-5 text-white"
+              className="h-[5vh] w-[100%] bg-transparent border-b-[2px] pl-5 text-white focus:outline-none"
             ></input>
             <input
               type="password"
               placeholder="Password"
               onChange={handlepassword}
-              className="h-[5vh] w-[100%] bg-transparent border-b-[2px] pl-5 text-white"
+              className="h-[5vh] w-[100%] bg-transparent border-b-[2px] pl-5 text-white focus:outline-none"
             ></input>
-            <div className="w-[100%] flex justify-center items-center mt-2">
+            <div className="w-[100%] flex justify-center items-center mt-5">
               <Button
                 variant="contained"
                 sx={{ width: "100%" }}

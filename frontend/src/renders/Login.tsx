@@ -38,23 +38,23 @@ function Login() {
         <div className="text-white w-[100%] h-[10vh] flex justify-center items-center text-3xl font-bold">
           Welcome to Project Live
         </div>
-        <div className="w-[100%] h-[30vh]  flex justify-center items-center relative top-[1vh] ">
-          <form className="w-[55%] h-[30vh]  flex flex-col gap-3 justify-center items-center border-b-[1px] ">
+        <div className="w-[100%] h-[30vh] flex justify-center items-center relative top-[1vh] ">
+          <form className="w-[55%] h-[30vh]  flex flex-col gap-2 justify-center items-center border-b-[1px] ">
             <input
               required
               type="email"
               placeholder="Email"
               onChange={handleemail}
-              className="h-[5vh] w-[100%] bg-transparent border-b-[2px] pl-5 text-white"
+              className="h-[5vh] w-[100%] bg-transparent border-b-[2px] pl-5 text-white mt-3 focus:outline-none"
             ></input>
             <input
               required
               onChange={handlepassword}
               placeholder="Password"
               type="password"
-              className="h-[5vh] w-[100%] bg-transparent border-b-[2px] pl-5 text-white"
+              className="h-[5vh] w-[100%] bg-transparent border-b-[2px] pl-5 text-white mt-3 focus:outline-none"
             ></input>
-            <div className="w-[100%] flex justify-center items-center mt-2">
+            <div className="w-[100%] flex justify-center items-center mt-[5vh]">
               <Button
                 variant="contained"
                 sx={{ width: "100%" }}
