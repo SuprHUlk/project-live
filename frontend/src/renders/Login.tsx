@@ -7,6 +7,8 @@ import Alert from "../components/Alert";
 import { useNavigate } from "react-router-dom";
 import { CircularProgress } from "@mui/material";
 
+import httpInterceptor from "../shared/httpInterceptor";
+
 function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
@@ -15,11 +17,11 @@ function Login() {
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState("");
 
-  const handleemail = (e: any) => {
+  const handleEmail = (e: any) => {
     setEmail(e.target.value);
   };
 
-  const handlepassword = (e: any) => {
+  const handlePassword = (e: any) => {
     setPassword(e.target.value);
   };
 
@@ -109,13 +111,13 @@ function Login() {
             value={email}
             type="email"
             placeholder="Email"
-            onChange={handleemail}
+            onChange={handleEmail}
             className="h-[5vh] w-[100%] bg-transparent border-b-[2px] pl-5 text-white mt-3 focus:outline-none"
           ></input>
           <input
             required
             value={password}
-            onChange={handlepassword}
+            onChange={handlePassword}
             placeholder="Password"
             type="password"
             className="h-[5vh] w-[100%] bg-transparent border-b-[2px] pl-5 text-white mt-3 focus:outline-none"

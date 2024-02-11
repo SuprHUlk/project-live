@@ -6,7 +6,7 @@ import "./index.css";
 
 import Dashboard from './components/Dashboard';
 import Loading from './components/Loading';
-import PrivateRoutes from './resources/PrivateRoutes';
+import PrivateRoutes from './shared/PrivateRoutes';
 
 const Main: React.FC = () => {
   return (

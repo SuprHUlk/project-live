@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 
 const authRoute = require('./routes/authRoute');
 const verifyRoutes = require('./routes/verifyRoutes');
+const tokenValidator = require('./shared/tokenValidator');
 
 const app = express();
 
@@ -46,9 +47,10 @@ app.use((req, res, next) => {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-// app.use((req, res, next) => {
+// app.use('/test', tokenValidator, (req, res, next) => {
+//     console.log(req.headers);
 //     res.status(200).json({
-//         id: '21321321'
+//         id: 123213
 //     });
 // })
 
