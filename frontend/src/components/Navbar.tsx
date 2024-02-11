@@ -23,6 +23,7 @@ function Navbar() {
   const [showLogin, setShowLogin] = useState(true); // Set to true initially
   const [showSignup, setShowSignup] = useState(false);
 
+  const username = localStorage.getItem("username");
   const navigate = useNavigate();
 
   const showmenubtn = () => {
@@ -115,8 +116,8 @@ function Navbar() {
         }`}
       >
         {isDashboard && (
-          <button className="text-white flex justify-start items-center w-[100%] h-[5vh] border-b-[1px] border-gray-600 hover:bg-slate-700">
-            <CiUser className="m-2 text-xl" /> Profile
+          <button className="text-white flex justify-start items-center w-[100%] h-max border-b-[1px] border-gray-600 hover:bg-slate-700">
+            <CiUser className="m-2 text-xl" /> {username}
           </button>
         )}
         {isDashboard && (
