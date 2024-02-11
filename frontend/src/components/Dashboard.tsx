@@ -8,7 +8,7 @@ function Dashboard() {
         className="w-[100%] h-[100vh] flex justify-between items-center bg-[#0E0E10] text-white"
         id="mainbg"
       ></div>
-    </>
+    </> //bg-[#0E0E10]
   );
 }
 export default Dashboard;
