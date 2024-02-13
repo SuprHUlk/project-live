@@ -18,6 +18,7 @@ export default function GoliveDashboard() {
                 placeholder="Description of the Stream"
                 className="w-[60%] h-[10vh] bg-[#2F2F35] rounded-md text-white resize-none overflow-auto pl-2"
               />
+
               <select
                 name="categories"
                 id="categories"
@@ -44,6 +45,7 @@ export default function GoliveDashboard() {
                 accept="image/*"
                 className="w-[60%] h-max bg-[#2F2F35] rounded-md text-white"
               />
+
               <div className="w-[100%] h-[5vh] flex justify-evenly items-center text-white">
                 <label>Is this stream for kids?</label>
                 <label htmlFor="yes">Yes</label>
