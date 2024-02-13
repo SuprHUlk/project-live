@@ -1,5 +1,5 @@
 import Navbar from "./Navbar";
-
+import Sidebar from "../renders/Dashboard_structure/Sidebar";
 function Dashboard() {
   return (
     <>
@@ -7,8 +7,10 @@ function Dashboard() {
       <div
         className="w-[100%] h-[100vh] flex justify-between items-center bg-[#0E0E10] text-white"
         id="mainbg"
-      ></div>
-    </> //bg-[#0E0E10]
+      >
+        <Sidebar />
+      </div>
+    </>
   );
 }
 export default Dashboard;
