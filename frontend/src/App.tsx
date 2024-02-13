@@ -1,24 +1,23 @@
-import Navbar from "./components/Navbar";
-import bg from "./assets/plive.jpg";
-import i1 from "./assets/1.png";
-import i2 from "./assets/2.png";
-import i3 from "./assets/3.png";
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import "./index.css";
+
+import Dashboard from './components/Dashboard';
+import Loading from './components/Loading';
+import PrivateRoutes from './shared/PrivateRoutes';
+import Auth from './components/Auth';
+
 function App() {
   return (
-    <>
-      <Navbar />
-      <div
-        className="w-[100%] h-[100vh] flex justify-between items-center bg-[#0E0E10] text-white"
-        id="mainbg"
-      >
-        <div className="">
-          <img src={i1} className="absolute top-[65vh] left-[10%] z-10" />
-          <img src={i2} className="absolute top-[50vh] left-[40%] z-20" />
-          <img src={i3} className="absolute top-[25vh] left-[5%] z-10" />
-          <img src={bg} className="w-[40%] absolute top-[30vh] left-[10%]" />
-        </div>
-      </div>
-    </>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Auth />} />
+        <Route path="/loading" element={<Loading />} />
+
+        <Route element={<PrivateRoutes />}>
+          <Route path="/dashboard" element={<Dashboard />} />
+        </Route>
+      </Routes>
+    </Router>
   );
 }
 
