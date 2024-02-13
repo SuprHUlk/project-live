@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 interface Props {
   onSuccessfulSignup: () => void;
-  openAlert: (message: string) => void;
+  openAlert: (message: string, isDanger: boolean) => void;
   togglePageLoading: () => void;
 }
 
@@ -29,7 +29,10 @@ const Signup: React.FC<Props> = ({
       password.trim() === "" ||
       !isValidEmail(email)
     ) {
-      openAlert("Please fill all the fields with valid values");
+      openAlert(
+        "Validator Error: Please fill all the fields with valid values",
+        true
+      );
       return;
     }
 
@@ -37,18 +40,19 @@ const Signup: React.FC<Props> = ({
 
     signup({ username: name, email: email, password: password }).then((res) => {
       if (res.msg === "Signup successful") {
-        openAlert("Signup successful: Please login");
+        openAlert("Signup successful: Please login", false);
         setLoading(false);
         onSuccessfulSignup();
         reset();
       } else if (res.msg === "ValidationError") {
-        openAlert("ValidationError: Email already exists");
+        openAlert("ValidationError: Email already exists", false);
       } else if (
         res.msg ===
         "WeakPassword: Password length must be greater than 6 character"
       ) {
         openAlert(
-          "WeakPassword: Password length must be greater than 6 character"
+          "Weak Password: Password length must be greater than 6 character",
+          false
         );
       }
       setLoading(false);
@@ -61,7 +65,7 @@ const Signup: React.FC<Props> = ({
       if (res.msg === "Login successful") {
         await onSuccessfulLogin(res.idToken, res.username);
       } else {
-        openAlert("UnknownError: Try again");
+        openAlert("Unknown Error: Try again", true);
       }
     });
   };
@@ -74,7 +78,7 @@ const Signup: React.FC<Props> = ({
     togglePageLoading();
     await new Promise((resolve) => setTimeout(resolve, 2000));
     navigate("/dashboard");
-    openAlert("Login successful");
+    openAlert("Login successful: Happy watching", false);
     reset();
   };
 

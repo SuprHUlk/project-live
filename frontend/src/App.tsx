@@ -11,6 +11,16 @@ import { SnackbarCloseReason } from "@mui/material";
 function App() {
   const [message, setMessage] = useState("");
   const [open, setOpen] = useState(false);
+  const [exited, setExited] = useState(true);
+  const [isDanger, setIsDanger] = useState(false);
+
+  const handleOnEnter = () => {
+    setExited(false);
+  };
+
+  const handleOnExited = () => {
+    setExited(true);
+  };
 
   const handleClose = (
     event?: React.SyntheticEvent | Event,
@@ -22,9 +32,10 @@ function App() {
     setOpen(false);
   };
 
-  const openAlert = (msg: string) => {
+  const openAlert = (msg: string, isDanger: boolean) => {
     setMessage(msg);
     setOpen(true);
+    setIsDanger(isDanger);
   };
 
   return (
@@ -37,7 +48,15 @@ function App() {
           </Route>
         </Routes>
       </Router>
-      <Alert open={open} handleClose={handleClose} message={message} />
+      <Alert
+        open={open}
+        exited={exited}
+        handleClose={handleClose}
+        handleOnEnter={handleOnEnter}
+        handleOnExited={handleOnExited}
+        message={message}
+        isDanger={isDanger}
+      />
     </>
   );
 }

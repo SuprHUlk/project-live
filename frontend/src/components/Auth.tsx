@@ -11,7 +11,7 @@ import { useState } from "react";
 import Loading from "../components/Loading";
 
 interface SomeComponentProps {
-  openAlert: (message: string) => void;
+  openAlert: (message: string, isDanger: boolean) => void;
 }
 
 const Auth: React.FC<SomeComponentProps> = ({ openAlert }) => {

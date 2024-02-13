@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { CircularProgress } from "@mui/material";
 
 interface Props {
-  openAlert: (message: string) => void;
+  openAlert: (message: string, isDanger: boolean) => void;
   togglePageLoading: () => void;
 }
 
@@ -20,7 +20,10 @@ const Login: React.FC<Props> = ({ openAlert, togglePageLoading }) => {
     e.preventDefault();
 
     if (email.trim() === "" || !isValidEmail(email)) {
-      openAlert("Please fill all the fields with valid values");
+      openAlert(
+        "Validator Error: Please fill all the fields with valid values",
+        true
+      );
       return;
     }
 
@@ -29,10 +32,10 @@ const Login: React.FC<Props> = ({ openAlert, togglePageLoading }) => {
     login({ email: email, password: password }).then(async (res) => {
       if (res.msg === "Login successful") {
         await onSuccessfulLogin(res.idToken, res.username);
-      } else if (res.msg === "InvalidCredentials: Invalid email or password") {
-        openAlert("InvalidCredentials: Invalid email or password");
+      } else if (res.msg === "Invalid Credentials: Invalid email or password") {
+        openAlert("Invalid Credentials: Invalid email or password", true);
       } else {
-        openAlert("UnknownError: Try again");
+        openAlert("Unknown Error: Try again", true);
       }
       setLoading(false);
     });
@@ -44,7 +47,7 @@ const Login: React.FC<Props> = ({ openAlert, togglePageLoading }) => {
       if (res.msg === "Login successful") {
         await onSuccessfulLogin(res.idToken, res.username);
       } else {
-        openAlert("UnknownError: Try again");
+        openAlert("Unknown Error: Try again", true);
       }
     });
   };
@@ -57,7 +60,7 @@ const Login: React.FC<Props> = ({ openAlert, togglePageLoading }) => {
     togglePageLoading();
     await new Promise((resolve) => setTimeout(resolve, 2000));
     navigate("/dashboard");
-    openAlert("Login successful");
+    openAlert("Login successful: Happy watching", false);
     reset();
   };
 
