@@ -1,5 +1,5 @@
-import { Snackbar, IconButton } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
+import { Snackbar, IconButton } from "@mui/material";
+import CloseIcon from "@mui/icons-material/Close";
 
 interface Props {
   message: string;
@@ -29,7 +29,7 @@ const Alert: React.FC<Props> = (props) => {
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
         open={open}
         onClose={handleClose}
-        autoHideDuration={5000}
+        autoHideDuration={3000}
         message={message}
         action={action}
       />
