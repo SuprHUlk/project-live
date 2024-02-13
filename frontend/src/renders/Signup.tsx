@@ -44,15 +44,15 @@ const Signup: React.FC<Props> = ({
         setLoading(false);
         onSuccessfulSignup();
         reset();
-      } else if (res.msg === "ValidationError") {
-        openAlert("ValidationError: Email already exists", false);
+      } else if (res.msg.split(":")[0] === "Validation Error") {
+        openAlert(res.msg, true);
       } else if (
         res.msg ===
         "WeakPassword: Password length must be greater than 6 character"
       ) {
         openAlert(
           "Weak Password: Password length must be greater than 6 character",
-          false
+          true
         );
       }
       setLoading(false);
