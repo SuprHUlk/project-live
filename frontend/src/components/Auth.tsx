@@ -10,11 +10,11 @@ import { useState } from "react";
 
 import Loading from "../components/Loading";
 
-interface SomeComponentProps {
+interface Props {
   openAlert: (message: string, isDanger: boolean) => void;
 }
 
-const Auth: React.FC<SomeComponentProps> = ({ openAlert }) => {
+const Auth: React.FC<Props> = ({ openAlert }) => {
   const [showLogin, setShowLogin] = useState(true);
   const [showSignup, setShowSignup] = useState(false);
   const [showLoading, setShowLoading] = useState(false);
