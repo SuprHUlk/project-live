@@ -7,6 +7,7 @@ import Auth from "./components/Auth";
 import Alert from "./components/Alert";
 import { useState } from "react";
 import { SnackbarCloseReason } from "@mui/material";
+import Setting from "./components/Setting";
 
 function App() {
   const [message, setMessage] = useState("");
@@ -45,6 +46,9 @@ function App() {
           <Route path="/" element={<Auth openAlert={openAlert} />} />
           <Route element={<PrivateRoutes />}>
             <Route path="/dashboard" element={<Dashboard />} />
+          </Route>
+          <Route element={<PrivateRoutes />}>
+            <Route path="/settings" element={<Setting />} />
           </Route>
         </Routes>
       </Router>
