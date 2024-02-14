@@ -4,7 +4,7 @@ const bodyParser = require("body-parser");
 
 const authRoute = require("./routes/authRoute");
 const verifyRoutes = require("./routes/verifyRoute");
-const followRoutes = require("./routes/followRoute");
+const followingRoutes = require("./routes/followingRoute");
 
 const app = express();
 
@@ -60,6 +60,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use("/auth", authRoute);
 app.use("/verify", verifyRoutes);
-app.use("/follow", followRoutes);
+app.use("/following", followingRoutes);
 
 module.exports = app;

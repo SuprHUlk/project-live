@@ -13,7 +13,7 @@ import { Button } from "@mui/material";
 import GoliveDashboard from "../renders/GoLiveMenu/GoliveDashboard";
 
 interface Props {
-  toggleForm: (app: string) => void;
+  toggleForm?: (app: string) => void;
 }
 
 const Navbar: React.FC<Props> = ({ toggleForm }) => {
@@ -64,7 +64,7 @@ const Navbar: React.FC<Props> = ({ toggleForm }) => {
             {!isDashboard && (
               <button
                 className="w-[50%] h-8 bg-[#2F2F35] rounded-md text-white shadow-2xl border-[1px] border-black hover:bg-[#414146]"
-                onClick={() => toggleForm("login")}
+                onClick={() => toggleForm!("login")}
               >
                 Log In
               </button>
@@ -73,7 +73,7 @@ const Navbar: React.FC<Props> = ({ toggleForm }) => {
             {!isDashboard && (
               <button
                 className="w-[50%] h-8 bg-blue-600 rounded-md text-white shadow-2xl border-[1px] border-black hover:bg-blue-800"
-                onClick={() => toggleForm("signup")}
+                onClick={() => toggleForm!("signup")}
               >
                 Sign Up
               </button>
