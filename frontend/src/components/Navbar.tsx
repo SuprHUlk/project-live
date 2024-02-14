@@ -62,25 +62,6 @@ const Navbar: React.FC<Props> = ({ toggleForm }) => {
         )}
         <div className="w-[20%] h-[8vh]  flex justify-center items-center  ">
           <div className="w-[50%] h-[8vh] flex justify-center items-center gap-3">
-<<<<<<< HEAD
-            {!isDashboard && (
-              <button
-                className="w-[50%] h-8 bg-[#2F2F35] rounded-md text-white shadow-2xl border-[1px] border-black hover:bg-[#414146]"
-                onClick={() => toggleForm!("login")}
-              >
-                Log In
-              </button>
-            )}
-
-            {!isDashboard && (
-              <button
-                className="w-[50%] h-8 bg-blue-600 rounded-md text-white shadow-2xl border-[1px] border-black hover:bg-blue-800"
-                onClick={() => toggleForm!("signup")}
-              >
-                Sign Up
-              </button>
-            )}
-=======
             {!isDashboard ||
               (!isSetting && (
                 <button
@@ -100,7 +81,6 @@ const Navbar: React.FC<Props> = ({ toggleForm }) => {
                   Sign Up
                 </button>
               ))}
->>>>>>> bef41ec689ef44f5484798c5fb5deffc6295c501
           </div>
           {isDashboard ||
             (isSetting && (

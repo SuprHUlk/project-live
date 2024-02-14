@@ -68,9 +68,8 @@ const get = async (token) => {
 
     let list = [];
     const promises = fetchedUser.followingList.map(async (element) => {
-      return await userModel.findById(element.followerId);
+      return await userModel.findById(element.followingId);
     });
-
     const results = await Promise.all(promises);
 
     results.forEach((result) => {
@@ -79,7 +78,7 @@ const get = async (token) => {
 
     return { code: 200, followingList: list };
   } catch (err) {
-    return { code: 500, msg: "Retrieval error" };
+    return { code: 500, msg: "Retrieval error", error: err };
   }
 };
 
