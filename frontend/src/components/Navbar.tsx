@@ -7,21 +7,21 @@ import {
 } from "react-icons/ci";
 import { useState } from "react";
 import { useLocation } from "react-router-dom"; // Import useLocation hook
-import Login from "../renders/Login";
-import Signup from "../renders/Signup";
 import { logout } from "../services/auth-service";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
 import GoliveDashboard from "../renders/GoLiveMenu/GoliveDashboard";
 
-function Navbar() {
+interface Props {
+  toggleForm: (app: string) => void;
+}
+
+const Navbar: React.FC<Props> = ({ toggleForm }) => {
   const location = useLocation(); // Get the current location
   const isDashboard = location.pathname === "/dashboard";
   const [isGoliveDashboardVisible, setGoliveDashboardVisibility] =
     useState(false);
   const [isMenuVisible, setMenuVisibility] = useState(false);
-  const [showLogin, setShowLogin] = useState(true); // Set to true initially
-  const [showSignup, setShowSignup] = useState(false);
 
   const username = localStorage.getItem("username");
   const navigate = useNavigate();
@@ -32,16 +32,6 @@ function Navbar() {
 
   const handleLogout = () => {
     logout(navigate);
-  };
-
-  const toggle = (app: string) => {
-    if (app === "login") {
-      setShowLogin(true);
-      setShowSignup(false);
-    } else {
-      setShowSignup(true);
-      setShowLogin(false);
-    }
   };
 
   const handleButtonClick = (buttonType: any) => {
@@ -74,7 +64,7 @@ function Navbar() {
             {!isDashboard && (
               <button
                 className="w-[50%] h-8 bg-[#2F2F35] rounded-md text-white shadow-2xl border-[1px] border-black hover:bg-[#414146]"
-                onClick={() => toggle("login")}
+                onClick={() => toggleForm("login")}
               >
                 Log In
               </button>
@@ -83,7 +73,7 @@ function Navbar() {
             {!isDashboard && (
               <button
                 className="w-[50%] h-8 bg-blue-600 rounded-md text-white shadow-2xl border-[1px] border-black hover:bg-blue-800"
-                onClick={() => toggle("signup")}
+                onClick={() => toggleForm("signup")}
               >
                 Sign Up
               </button>
@@ -134,13 +124,9 @@ function Navbar() {
           </button>
         )}
       </div>
-      {showLogin && !isDashboard && <Login />}
-      {showSignup && !isDashboard && (
-        <Signup onSuccessfulSignup={() => toggle("login")} />
-      )}
       {isGoliveDashboardVisible && <GoliveDashboard />}
     </>
   );
-}
+};
 
 export default Navbar;

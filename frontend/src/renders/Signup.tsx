@@ -1,95 +1,91 @@
-import { Button, SnackbarCloseReason } from "@mui/material";
+import { Button } from "@mui/material";
 import { FcGoogle } from "react-icons/fc";
-import { signup } from "../services/auth-service";
+import { signup, googleSignIn } from "../services/auth-service";
 import { useState } from "react";
-import Alert from "../components/Alert";
 import { CircularProgress } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   onSuccessfulSignup: () => void;
+  openAlert: (message: string, isDanger: boolean) => void;
+  togglePageLoading: () => void;
 }
 
-const Signup: React.FC<Props> = (props) => {
+const Signup: React.FC<Props> = ({
+  onSuccessfulSignup,
+  openAlert,
+  togglePageLoading,
+}) => {
+  const navigate = useNavigate();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [message, setMessage] = useState("");
-  const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const { onSuccessfulSignup } = props;
-
-  const handleusername = (e: any) => {
-    setName(e.target.value);
-  };
-  const handlemail = (e: any) => {
-    setEmail(e.target.value);
-  };
-  const handlepassword = (e: any) => {
-    setPassword(e.target.value);
-  };
-
-  const openSnackbar = (message: string) => {
-    setMessage(message);
-    setOpen(true);
-  };
-
-  const handleClose = (
-    event?: React.SyntheticEvent | Event,
-    reason?: SnackbarCloseReason
-  ) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setOpen(false);
-  };
-
-  const handlesignup = () => {
+  const handleSignup = () => {
     if (
       name.trim() === "" ||
       email.trim() === "" ||
       password.trim() === "" ||
       !isValidEmail(email)
     ) {
-      openSnackbar("Please fill all the fields with valid values");
+      openAlert(
+        "Validator Error: Please fill all the fields with valid values",
+        true
+      );
       return;
     }
 
     setLoading(true);
 
-    signupCall({ username: name, email: email, password: password }).then(
-      (res) => {
-        if (res.msg === "Signup successful") {
-          setLoading(false);
-          onSuccessfulSignup();
-          reset();
-        } else if (res.msg === "ValidationError") {
-          openSnackbar("ValidationError: Email already exists");
-        } else if (
-          res.msg ===
-          "WeakPassword: Password length must be greater than 6 character"
-        ) {
-          openSnackbar(
-            "WeakPassword: Password length must be greater than 6 character"
-          );
-        }
+    signup({ username: name, email: email, password: password }).then((res) => {
+      if (res.msg === "Signup successful") {
+        openAlert("Signup successful: Please login", false);
         setLoading(false);
+        onSuccessfulSignup();
+        reset();
+      } else if (res.msg.split(":")[0] === "Validation Error") {
+        openAlert(res.msg, true);
+      } else if (
+        res.msg ===
+        "WeakPassword: Password length must be greater than 6 character"
+      ) {
+        openAlert(
+          "Weak Password: Password length must be greater than 6 character",
+          true
+        );
       }
-    );
+      setLoading(false);
+    });
+  };
+
+  const handleGoogleSignup = () => {
+    setLoading(true);
+    googleSignIn().then(async (res) => {
+      if (res.msg === "Login successful") {
+        await onSuccessfulLogin(res.idToken, res.username);
+      } else {
+        openAlert("Unknown Error: Try again", true);
+      }
+    });
+  };
+
+  const onSuccessfulLogin = async (idToken: string, username: string) => {
+    localStorage.setItem("idToken", idToken);
+    localStorage.setItem("username", username);
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    setLoading(false);
+    togglePageLoading();
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+    navigate("/dashboard");
+    openAlert("Login successful: Happy watching", false);
+    reset();
   };
 
   const isValidEmail = (email: string) => {
     // Regular expression to validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
-  };
-
-  const signupCall = (signupData: {
-    username: string;
-    email: string;
-    password: string;
-  }) => {
-    return signup(signupData);
   };
 
   const reset = () => {
@@ -109,7 +105,7 @@ const Signup: React.FC<Props> = (props) => {
             <input
               value={name}
               type="text"
-              onChange={handleusername}
+              onChange={(e) => setName(e.target.value)}
               placeholder="Username"
               className="h-[5vh] w-[100%] bg-transparent border-b-[2px] pl-5 text-white"
               required
@@ -118,7 +114,7 @@ const Signup: React.FC<Props> = (props) => {
               value={email}
               type="email"
               placeholder="Email"
-              onChange={handlemail}
+              onChange={(e) => setEmail(e.target.value)}
               className="h-[5vh] w-[100%] bg-transparent border-b-[2px] pl-5 text-white"
               required
             ></input>
@@ -126,7 +122,7 @@ const Signup: React.FC<Props> = (props) => {
               value={password}
               type="password"
               placeholder="Password"
-              onChange={handlepassword}
+              onChange={(e) => setPassword(e.target.value)}
               className="h-[5vh] w-[100%] bg-transparent border-b-[2px] pl-5 text-white"
               required
             ></input>
@@ -134,26 +130,34 @@ const Signup: React.FC<Props> = (props) => {
               <Button
                 variant="contained"
                 sx={{ width: "100%" }}
-                onClick={handlesignup}
+                onClick={handleSignup}
               >
                 {loading ? (
-                <CircularProgress size={24} color="inherit" />
-              ) : (
-                "create an account"
-              )}
-                
+                  <CircularProgress size={24} color="inherit" />
+                ) : (
+                  "create an account"
+                )}
               </Button>
             </div>
           </form>
         </div>
         <div className="w-[100%] h-[10vh]  flex justify-center items-center relative ">
-          <Button variant="outlined" sx={{ width: "55%" }}>
-            <FcGoogle className="mr-2 text-xl" />
-            Sign Up with google
+          <Button
+            variant="outlined"
+            sx={{ width: "55%" }}
+            onClick={handleGoogleSignup}
+          >
+            {loading ? (
+              <CircularProgress size={24} color="inherit" />
+            ) : (
+              <>
+                <FcGoogle className="mr-2 text-xl" />
+                Sign Up with google
+              </>
+            )}
           </Button>
         </div>
       </div>
-      <Alert open={open} handleClose={handleClose} message={message} />;
     </>
   );
 };
