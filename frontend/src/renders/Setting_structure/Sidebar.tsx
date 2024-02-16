@@ -1,5 +1,7 @@
 import { CiGrid31, CiStreamOn, CiUser } from "react-icons/ci";
+import { IoExitOutline } from "react-icons/io5";
 import { Button } from "@mui/material";
+import { Link } from "react-router-dom";
 interface SidebarProps {
   onMenuClick: (menu: string) => void;
 }
@@ -24,6 +26,21 @@ export default function Sidebar({ onMenuClick }: SidebarProps) {
         >
           <CiUser className=" mr-[5%] text-3xl" /> Profile
         </Button>
+        <Link to="/dashboard">
+          <Button
+            sx={{
+              width: "100%",
+              height: "10vh",
+              position: "relative",
+              top: "52vh",
+              backgroundColor: "#18181B",
+              color: "white",
+            }}
+          >
+            Back to Plive
+            <IoExitOutline className="text-white text-2xl ml-[5%]" />
+          </Button>
+        </Link>
       </div>
     </>
   );
