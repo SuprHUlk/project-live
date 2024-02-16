@@ -128,6 +128,8 @@ const saveUser = async (username, email, password) => {
       username: username,
       email: email,
       password: hashedPassword,
+      followerCount: 0,
+      followingCount: 0,
     });
 
     const result = await data.save();

@@ -1,8 +1,47 @@
 import { FaHeart } from "react-icons/fa";
 import "../../index.css";
 import { CiUser } from "react-icons/ci";
+import { useEffect, useState } from "react";
 
-export default function Sidebar() {
+import { get } from "../../services/following-service";
+
+interface Props {
+  openAlert: (message: string, isDanger: boolean) => void;
+}
+
+const Sidebar: React.FC<Props> = ({ openAlert }) => {
+  const temp = [
+    {
+      src: "https://images.pexels.com/photos/10317493/pexels-photo-10317493.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+      username: "Faiz",
+      followerCount: 123456,
+    },
+    {
+      src: "https://images.pexels.com/photos/10317493/pexels-photo-10317493.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
+      username: "Ayush",
+      followerCount: 7890,
+    },
+  ];
+
+  const [users, setUsers] =
+    useState<{ src: string; username: string; followerCount: number }[]>(temp);
+
+  useEffect(() => {
+    const fetch = async () => {
+      try {
+        const list: [] = await get();
+        if (list.length !== 0) setUsers(list);
+      } catch (err) {
+        openAlert(
+          "Error : Error in reloading following list. Please reload!!!!",
+          true
+        );
+      }
+    };
+
+    fetch();
+  }, []);
+
   const formatFollowerCount = (count: any) => {
     if (count >= 1000000) {
       return (count / 1000000).toFixed(1) + "m";
@@ -12,19 +51,6 @@ export default function Sidebar() {
       return count;
     }
   };
-
-  const users = [
-    {
-      src: "https://images.pexels.com/photos/10317493/pexels-photo-10317493.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
-      name: "Faiz",
-      followerCount: 123456,
-    },
-    {
-      src: "https://images.pexels.com/photos/10317493/pexels-photo-10317493.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load",
-      name: "Ayush",
-      followerCount: 7890,
-    },
-  ];
 
   return (
     <>
@@ -43,10 +69,10 @@ export default function Sidebar() {
                 <img
                   src={user.src}
                   className="w-[15%] h-[80%] ml-[5%] rounded-[50%]"
-                  alt={user.name}
+                  alt={user.username}
                 ></img>
                 <div className="w-[50%] h-[8vh]  flex justify-center items-center">
-                  {user.name}
+                  {user.username}
                 </div>
                 <div className="w-[30%] h-[8vh] flex justify-center items-center">
                   <CiUser className="mr-[5%] text-blue-900" />
@@ -59,4 +85,6 @@ export default function Sidebar() {
       </div>
     </>
   );
-}
+};
+
+export default Sidebar;

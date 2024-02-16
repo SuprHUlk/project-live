@@ -5,8 +5,15 @@ const userSchema = mongoose.Schema({
   username: { type: String, require: true, unique: true },
   email: { type: String, require: true, unique: true },
   password: { type: String, require: true },
+  profilePic: { type: String },
   isLive: { type: Boolean },
-  count: { type: Number },
+  followerCount: { type: Number, require: true },
+  followingList: [
+    {
+      followingId: { type: String, required: true },
+    },
+  ],
+  followingCount: { type: Number, require: true },
 });
 
 userSchema.plugin(uniqueValidator);

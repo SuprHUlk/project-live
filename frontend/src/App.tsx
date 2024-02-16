@@ -45,7 +45,10 @@ function App() {
         <Routes>
           <Route path="/" element={<Auth openAlert={openAlert} />} />
           <Route element={<PrivateRoutes />}>
-            <Route path="/dashboard" element={<Dashboard />} />
+            <Route
+              path="/dashboard"
+              element={<Dashboard openAlert={openAlert} />}
+            />
           </Route>
           <Route element={<PrivateRoutes />}>
             <Route path="/settings" element={<Setting />} />

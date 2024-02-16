@@ -19,7 +19,7 @@ router.post("/remove", tokenValidator, async (req, res, next) => {
   res.status(result.code).json(result);
 });
 
-router.post("/get", tokenValidator, async (req, res, next) => {
+router.get("/get", tokenValidator, async (req, res, next) => {
   const idToken = req.headers.authorization.split("Bearer ")[1];
   const result = await get(idToken);
   res.status(result.code).json(result);

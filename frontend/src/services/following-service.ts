@@ -1,7 +1,12 @@
 import httpInterceptor from "../shared/httpInterceptor";
 
-export const get = () => {
-  httpInterceptor.get("http://localhost:3000/following/get").then((res) => {
-    console.log(res);
-  });
+export const get = async () => {
+  try {
+    const result = await httpInterceptor.get(
+      "http://localhost:3000/following/get"
+    );
+    return result.data.result;
+  } catch (err) {
+    return err;
+  }
 };

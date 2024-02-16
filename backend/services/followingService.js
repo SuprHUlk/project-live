@@ -1,112 +1,128 @@
 const jwt = require("jsonwebtoken");
 
-const followingModel = require("../models/followingModel");
 const userModel = require("../models/userModel");
 
 const add = async (token, followingId) => {
   try {
     const userId = jwt.verify(token, process.env.SECRET).userId;
-    const fetchedUser = await followingModel.findOne({ userId: userId });
+    const fetchedUser = await userModel.findById(userId);
+    let check = isFollowing(fetchedUser.followingList, followingId);
 
-    //user doesn't exists
-    if (!fetchedUser) {
-      console.log();
-      const result = await saveUser(userId, followingId, [], 0);
-      return { code: 200, msg: "Follow successful" };
+    if (check) {
+      return {
+        code: 200,
+        result: fetchedUser.followingList,
+        msg: "Follow successful",
+      };
     }
 
-    let isFollowing = false;
+    const newFollowingList = [
+      ...fetchedUser.followingList,
+      { followingId: followingId },
+    ];
 
-    fetchedUser.followingList.forEach((element) => {
-      if (element.followingId === followingId) {
-        isFollowing = true;
-      }
+    const data = {
+      followingList: newFollowingList,
+      followingCount:
+        fetchedUser.followingCount === undefined
+          ? 1
+          : fetchedUser.followingCount + 1,
+    };
+
+    const result = await userModel.findByIdAndUpdate(userId, data, {
+      new: true,
     });
 
-    //not already following
-    if (!isFollowing) {
-      const result = await followingModel.findOneAndUpdate(
-        { userId: userId },
-        {
-          $push: { followingList: { followingId: followingId } },
-          $inc: { count: 1 },
-        },
-        { new: true }
-      );
-    }
-    return { code: 200, msg: "Follow successful" };
+    return {
+      code: 201,
+      result: result.followingList,
+      msg: "Follow successful",
+    };
   } catch (err) {
-    return { code: 500, error: err };
+    return { code: 500, error: err, msg: "Follow unsuccessful" };
   }
 };
 
-const remove = async (token, followingId) => {
+const remove = async (token, followingIdToUnFollow) => {
   try {
     const userId = jwt.verify(token, process.env.SECRET).userId;
-    const fetchedUser = await followingModel.findOne({ userId: userId });
-    const newFollowingList = unFollow(fetchedUser.followingList, followingId);
+    const fetchedUser = await userModel.findById(userId);
 
-    const result = await followingModel.findOneAndUpdate(
-      { userId: userId },
-      { followingList: newFollowingList, count: fetchedUser.count - 1 },
+    let check = isFollowing(fetchedUser.followingList, followingIdToUnFollow);
+
+    if (!check) {
+      return {
+        code: 200,
+        result: fetchedUser.followingList,
+        msg: "UnFollow successful",
+      };
+    }
+
+    const newFollowingList = fetchedUser.followingList.filter(
+      (element) => element.followingId !== followingIdToUnFollow
+    );
+
+    const result = await userModel.findByIdAndUpdate(
+      userId,
+      {
+        followingList: newFollowingList,
+        followingCount: fetchedUser.followingCount - 1,
+      },
       { new: true }
     );
 
-    return { code: 201, msg: "UnFollow successful" };
+    return {
+      code: 201,
+      result: result.followingList,
+      msg: "UnFollow successful",
+    };
   } catch (err) {
-    return { code: 500, error: err };
+    console.log(err);
+    return { code: 500, error: err, msg: "UnFollow Unsuccessful" };
   }
 };
 
 const get = async (token) => {
   try {
     const userId = jwt.verify(token, process.env.SECRET).userId;
-    const fetchedUser = await followingModel.findOne({ userId: userId });
+    const fetchedUser = await userModel.findById(userId);
 
-    //user doesn't exist
-    if (!fetchedUser) return { code: 200, followingList: [] };
+    if (fetchedUser.followingList.length === 0)
+      return { code: 200, result: [], msg: "Retrieval successful" };
 
     let list = [];
     const promises = fetchedUser.followingList.map(async (element) => {
-      return await userModel.findById(element.followingId);
+      const user = await userModel.findById(element.followingId);
+      const data = {
+        userId: user._id,
+        username: user.username,
+        followerCount: user.followerCount,
+        followingCount: user.followingCount,
+      };
+
+      return data;
     });
+
     const results = await Promise.all(promises);
 
     results.forEach((result) => {
       list.push(result);
     });
 
-    return { code: 200, followingList: list };
+    return { code: 200, result: list, msg: "Retrieval successful" };
   } catch (err) {
     return { code: 500, msg: "Retrieval error", error: err };
   }
 };
 
-const saveUser = async (userId, followingId, followingList, count) => {
-  try {
-    const data = new followingModel({
-      userId: userId,
-      followingList: [
-        ...followingList,
-        {
-          followingId: followingId,
-        },
-      ],
-      count: count + 1,
-    });
-
-    const result = await data.save();
-
-    return result;
-  } catch (err) {
-    throw err;
-  }
-};
-
-const unFollow = (followingList, toDeleteId) => {
-  return followingList.filter(
-    (following) => following.followingId !== toDeleteId
-  );
+const isFollowing = (followingList, followingId) => {
+  let check = false;
+  followingList.forEach((element) => {
+    if (element.followingId === followingId) {
+      check = true;
+    }
+  });
+  return check;
 };
 
 module.exports = { add, remove, get };
