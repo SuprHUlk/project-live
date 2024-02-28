@@ -3,8 +3,9 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 
 const authRoute = require("./routes/authRoute");
-const verifyRoutes = require("./routes/verifyRoute");
-const followingRoutes = require("./routes/followingRoute");
+const verifyRoute = require("./routes/verifyRoute");
+const followingRoute = require("./routes/followingRoute");
+const settingRoute = require("./routes/settingRoute");
 // const y = require("./models/userModel");
 
 const app = express();
@@ -59,7 +60,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // });
 
 app.use("/auth", authRoute);
-app.use("/verify", verifyRoutes);
-app.use("/following", followingRoutes);
+app.use("/verify", verifyRoute);
+app.use("/following", followingRoute);
+app.use("/setting", settingRoute);
 
 module.exports = app;

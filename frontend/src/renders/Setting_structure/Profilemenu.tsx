@@ -1,36 +1,40 @@
 import { Button } from "@mui/material";
 import { useState } from "react";
 
+import { changeUsername } from "../../services/setting-service";
+
 export default function Profilemenu() {
+  const [username, setUsername] = useState(localStorage.getItem("username")!);
   const storedUsername = localStorage.getItem("username") ?? "DefaultUsername";
-  const [username, setUsername] = useState(storedUsername);
   const [editMode, setEditMode] = useState(false);
-  const [tempUsername, setTempUsername] = useState(storedUsername);
 
   const handleEditClick = () => {
-    setTempUsername(username);
     setEditMode(true);
   };
 
-  const handleSaveClick = () => {
-    const lastChangeTimestampString =
-      localStorage.getItem("lastUsernameChange") || "0";
-    const lastChangeTimestamp = parseInt(lastChangeTimestampString, 10);
-    const currentTime = new Date().getTime();
-    const cooldownPeriod = 60 * 24 * 60 * 60 * 1000;
-    if (currentTime - lastChangeTimestamp >= cooldownPeriod) {
-      setEditMode(false);
-      localStorage.setItem("username", username);
+  const handleSaveClick = async () => {
+    // const lastChangeTimestampString =
+    //   localStorage.getItem("lastUsernameChange") || "0";
+    // const lastChangeTimestamp = parseInt(lastChangeTimestampString, 10);
+    // const currentTime = new Date().getTime();
+    // const cooldownPeriod = 60 * 24 * 60 * 60 * 1000;
+    // if (currentTime - lastChangeTimestamp >= cooldownPeriod) {
+    //   setEditMode(false);
+    //   localStorage.setItem("username", username);
 
-      localStorage.setItem("lastUsernameChange", currentTime.toString());
-    } else {
-      alert("You can only change your username once every 60 days.");
-    }
+    //   localStorage.setItem("lastUsernameChange", currentTime.toString());
+    // } else {
+    //   alert("You can only change your username once every 60 days.");
+    // }
+
+    const result = await changeUsername(username);
+    localStorage.setItem("username", result);
+    setUsername(result);
+    handleCancelClick();
   };
 
   const handleCancelClick = () => {
     setEditMode(false);
-    setUsername(tempUsername);
   };
 
   return (
@@ -50,7 +54,7 @@ export default function Profilemenu() {
                 className="w-[10%]  rounded-lg"
               ></img>
               <div className="ml-[5%] text-4xl font-semibold">
-                About {username}
+                About {localStorage.getItem("username")}
                 <div className="text-lg mt-[1%]">0 Follower</div>
                 <Button variant="contained" sx={{ backgroundColor: "#3F4448" }}>
                   Edit Avatar
