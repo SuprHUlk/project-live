@@ -6,7 +6,6 @@ const authRoute = require("./routes/authRoute");
 const verifyRoute = require("./routes/verifyRoute");
 const followingRoute = require("./routes/followingRoute");
 const settingRoute = require("./routes/settingRoute");
-// const y = require("./models/userModel");
 
 const app = express();
 
@@ -53,11 +52,18 @@ app.use((req, res, next) => {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-// app.use("/test", async (req, res, next) => {
-//   const t = await y.findById(req.body.id);
-//   console.log(t.followingCount === undefined);
-//   res.status(200).send({ res: t });
-// });
+app.use("/t", async (req, res, next) => {
+  res.send("hi");
+});
+
+app.use("/test", async (req, res, next) => {
+  const key = req.body.key;
+  if (key === "test") {
+    return res.status(200).send();
+  }
+
+  res.status(403).send();
+});
 
 app.use("/auth", authRoute);
 app.use("/verify", verifyRoute);

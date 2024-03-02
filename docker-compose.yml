@@ -1,0 +1,43 @@
+version: "3.9"
+services:
+  rtmp:
+    build: ./rtmp
+    ports:
+      - "1935:1935"
+      - "8080:8080"
+    container_name: rtmp_server
+    volumes:
+      - ./data:/tmp/hls
+    networks:
+      - mern-network
+
+  frontend:
+    build: ./frontend
+    container_name: frontend_server
+    ports:
+      - "4200:4200"
+    expose:
+      - 4200
+    volumes:
+      - ./frontend:/usr/src/app
+      - /usr/src/app/node_modules
+    stdin_open: true
+    tty: true
+    networks:
+      - mern-network
+
+  backend:
+    build: ./backend
+    container_name: backend_server
+    restart: always
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./backend:/usr/src/app
+      - /usr/src/app/node_modules
+    networks:
+      - mern-network
+
+networks:
+  mern-network:
+    driver: bridge
