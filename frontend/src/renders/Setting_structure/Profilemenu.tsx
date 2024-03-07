@@ -211,7 +211,7 @@ export default function Profilemenu() {
               </div>
             </div>
           </div>
-          <div className="w-[100%] h-[20vh] bg-[#222225] mt-[5%] rounded-md mt-10">
+          <div className="w-[100%] h-[20vh] bg-[#222225] mt-[5%] rounded-md ">
             <div className="w-[100%] h-[5vh] border-b-[1px] flex justify-start items-center pl-[2%]">
               Socials
             </div>
