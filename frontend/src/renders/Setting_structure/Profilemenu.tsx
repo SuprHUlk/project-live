@@ -6,27 +6,22 @@ import { changeUsername } from "../../services/setting-service";
 export default function Profilemenu() {
   const [username, setUsername] = useState(localStorage.getItem("username")!);
   const storedUsername = localStorage.getItem("username") ?? "DefaultUsername";
+  const [bio, setBio] = useState(localStorage.getItem("bio") || "");
+  const [instagram, setInstagram] = useState(
+    localStorage.getItem("instagram") || ""
+  );
+  const [twitter, setTwitter] = useState(localStorage.getItem("twitter") || "");
+  const [youtube, setYoutube] = useState(localStorage.getItem("youtube") || "");
+  const [discord, setDiscord] = useState(localStorage.getItem("discord") || "");
   const [editMode, setEditMode] = useState(false);
+  const [bioEditMode, setBioEditMode] = useState(false);
+  const [socialsEditMode, setSocialsEditMode] = useState(false);
 
   const handleEditClick = () => {
     setEditMode(true);
   };
 
   const handleSaveClick = async () => {
-    // const lastChangeTimestampString =
-    //   localStorage.getItem("lastUsernameChange") || "0";
-    // const lastChangeTimestamp = parseInt(lastChangeTimestampString, 10);
-    // const currentTime = new Date().getTime();
-    // const cooldownPeriod = 60 * 24 * 60 * 60 * 1000;
-    // if (currentTime - lastChangeTimestamp >= cooldownPeriod) {
-    //   setEditMode(false);
-    //   localStorage.setItem("username", username);
-
-    //   localStorage.setItem("lastUsernameChange", currentTime.toString());
-    // } else {
-    //   alert("You can only change your username once every 60 days.");
-    // }
-
     const result = await changeUsername(username);
     localStorage.setItem("username", result);
     setUsername(result);
@@ -35,6 +30,37 @@ export default function Profilemenu() {
 
   const handleCancelClick = () => {
     setEditMode(false);
+  };
+
+  // Bio section functions
+  const handleEditClickBio = () => {
+    setBioEditMode(true);
+  };
+
+  const handleSaveClickBio = () => {
+    localStorage.setItem("bio", bio);
+    handleCancelClickBio();
+  };
+
+  const handleCancelClickBio = () => {
+    setBioEditMode(false);
+  };
+
+  // Socials section functions
+  const handleEditClickSocials = () => {
+    setSocialsEditMode(true);
+  };
+
+  const handleSaveClickSocials = () => {
+    localStorage.setItem("instagram", instagram);
+    localStorage.setItem("twitter", twitter);
+    localStorage.setItem("youtube", youtube);
+    localStorage.setItem("discord", discord);
+    handleCancelClickSocials();
+  };
+
+  const handleCancelClickSocials = () => {
+    setSocialsEditMode(false);
   };
 
   return (
@@ -52,6 +78,7 @@ export default function Profilemenu() {
               <img
                 src="https://images.pexels.com/photos/10317493/pexels-photo-10317493.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"
                 className="w-[10%]  rounded-lg"
+                alt="Profile"
               ></img>
               <div className="ml-[5%] text-4xl font-semibold">
                 About {localStorage.getItem("username")}
@@ -122,6 +149,151 @@ export default function Profilemenu() {
               <div className="text-sm text-white/50">
                 Once you change your username, you will need to wait for 60 days
                 to change it again
+              </div>
+            </div>
+          </div>
+          <div className="w-[100%] h-[20vh] bg-[#222225] mt-[5%] rounded-md">
+            <div className="w-[100%] h-[5vh] border-b-[1px] flex justify-start items-center pl-[2%]">
+              Bio
+            </div>
+            <div className="w-[100%] h-[15vh] flex justify-center flex-col items-center">
+              <div className="w-[100%] h-[10vh] flex justify-center items-center">
+                <input
+                  placeholder="Please enter your description for the About panel on your channel page (Maximum 500 characters)"
+                  value={bio}
+                  onChange={(e) => setBio(e.target.value)}
+                  className={`pl-[2%] bg-[#414146] w-[80%] h-[6vh] rounded-md ml-[2%] ${
+                    bioEditMode ? "" : "pointer-events-none"
+                  }`}
+                  disabled={!bioEditMode}
+                />
+                {bioEditMode ? (
+                  <>
+                    <Button
+                      onClick={handleCancelClickBio}
+                      variant="contained"
+                      sx={{
+                        backgroundColor: "red",
+                        height: "5vh",
+                        width: "10%",
+                        margin: "1%",
+                      }}
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      onClick={handleSaveClickBio}
+                      variant="contained"
+                      sx={{
+                        backgroundColor: "blue",
+                        height: "5vh",
+                        width: "10%",
+                        margin: "1%",
+                      }}
+                    >
+                      Save
+                    </Button>
+                  </>
+                ) : (
+                  <Button
+                    onClick={handleEditClickBio}
+                    variant="contained"
+                    sx={{
+                      backgroundColor: "#3F4448",
+                      height: "5vh",
+                      width: "10%",
+                      margin: "1%",
+                    }}
+                  >
+                    Edit
+                  </Button>
+                )}
+              </div>
+            </div>
+          </div>
+          <div className="w-[100%] h-[20vh] bg-[#222225] mt-[5%] rounded-md mt-10">
+            <div className="w-[100%] h-[5vh] border-b-[1px] flex justify-start items-center pl-[2%]">
+              Socials
+            </div>
+            <div className="w-[100%] h-[15vh] flex justify-center flex-col items-center">
+              <div className="w-[100%] h-[10vh] flex justify-center items-center">
+                <input
+                  placeholder="Instagram"
+                  value={instagram}
+                  onChange={(e) => setInstagram(e.target.value)}
+                  className={`pl-[2%] bg-[#414146] w-[20%] h-[6vh] rounded-md ml-[2%] ${
+                    socialsEditMode ? "" : "pointer-events-none"
+                  }`}
+                  disabled={!socialsEditMode}
+                />
+                <input
+                  placeholder="Twitter"
+                  value={twitter}
+                  onChange={(e) => setTwitter(e.target.value)}
+                  className={`pl-[2%] bg-[#414146] w-[20%] h-[6vh] rounded-md ml-[2%] ${
+                    socialsEditMode ? "" : "pointer-events-none"
+                  }`}
+                  disabled={!socialsEditMode}
+                />
+                <input
+                  placeholder="YouTube"
+                  value={youtube}
+                  onChange={(e) => setYoutube(e.target.value)}
+                  className={`pl-[2%] bg-[#414146] w-[20%] h-[6vh] rounded-md ml-[2%] ${
+                    socialsEditMode ? "" : "pointer-events-none"
+                  }`}
+                  disabled={!socialsEditMode}
+                />
+                <input
+                  placeholder="Discord"
+                  value={discord}
+                  onChange={(e) => setDiscord(e.target.value)}
+                  className={`pl-[2%] bg-[#414146] w-[20%] h-[6vh] rounded-md ml-[2%] ${
+                    socialsEditMode ? "" : "pointer-events-none"
+                  }`}
+                  disabled={!socialsEditMode}
+                />
+                {socialsEditMode ? (
+                  <>
+                    <Button
+                      onClick={handleCancelClickSocials}
+                      variant="contained"
+                      sx={{
+                        backgroundColor: "red",
+                        height: "5vh",
+                        width: "10%",
+                        margin: "1%",
+                      }}
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      onClick={handleSaveClickSocials}
+                      variant="contained"
+                      sx={{
+                        backgroundColor: "blue",
+                        height: "5vh",
+                        width: "10%",
+                        margin: "1%",
+                      }}
+                    >
+                      Save
+                    </Button>
+                  </>
+                ) : (
+                  <Button
+                    onClick={handleEditClickSocials}
+                    variant="contained"
+                    sx={{
+                      backgroundColor: "#3F4448",
+                      height: "5vh",
+                      width: "10%",
+                      margin: "1%",
+                    }}
+                  >
+                    Edit
+                  </Button>
+                )}
               </div>
             </div>
           </div>
