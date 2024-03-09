@@ -6,6 +6,7 @@ const authRoute = require("./routes/authRoute");
 const verifyRoute = require("./routes/verifyRoute");
 const followingRoute = require("./routes/followingRoute");
 const settingRoute = require("./routes/settingRoute");
+const liveRoute = require("./routes/liveRoute");
 
 const app = express();
 
@@ -52,22 +53,21 @@ app.use((req, res, next) => {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use("/t", async (req, res, next) => {
-  res.send("hi");
-});
+// app.use("/stop", async (req, res, next) => {
+//   console.log(req.body);
+// const key = req.body.key;
+// console.log(req.body);
+// if (key === "test") {
+//   return res.status(200).send();
+// }
 
-app.use("/test", async (req, res, next) => {
-  const key = req.body.key;
-  if (key === "test") {
-    return res.status(200).send();
-  }
-
-  res.status(403).send();
-});
+// res.status(403).send();
+// });
 
 app.use("/auth", authRoute);
 app.use("/verify", verifyRoute);
 app.use("/following", followingRoute);
 app.use("/setting", settingRoute);
+app.use("/live", liveRoute);
 
 module.exports = app;

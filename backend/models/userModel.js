@@ -14,6 +14,7 @@ const userSchema = mongoose.Schema({
     },
   ],
   followingCount: { type: Number, require: true },
+  secretKey: { type: String },
 });
 
 userSchema.plugin(uniqueValidator);

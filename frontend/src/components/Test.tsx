@@ -2,22 +2,39 @@ import { useEffect, useRef } from "react";
 import Hls from "hls.js";
 
 const Test = () => {
-  const videoRef = useRef<HTMLVideoElement | null>(null);
-  const src = "http://localhost:8080/hls/admin.m3u8";
+  const videoRef1 = useRef<HTMLVideoElement | null>(null);
+  const videoRef2 = useRef<HTMLVideoElement | null>(null);
+  const src1 = "http://localhost:8080/hls/admin.m3u8";
+  const src2 = "http://localhost:8080/hls/admin2.m3u8";
   useEffect(() => {
-    const video = videoRef.current;
-    if (video) {
+    const video1 = videoRef1.current;
+    const video2 = videoRef2.current;
+    if (video1) {
       if (Hls.isSupported()) {
         const hls = new Hls();
-        hls.loadSource(src);
-        hls.attachMedia(video);
-      } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
-        video.src = src;
+        hls.loadSource(src1);
+        hls.attachMedia(video1);
+      } else if (video1.canPlayType("application/vnd.apple.mpegurl")) {
+        video1.src = src1;
       }
     }
-  }, [src]);
+    if (video2) {
+      if (Hls.isSupported()) {
+        const hls = new Hls();
+        hls.loadSource(src2);
+        hls.attachMedia(video2);
+      } else if (video2.canPlayType("application/vnd.apple.mpegurl")) {
+        video2.src = src2;
+      }
+    }
+  }, [src1, src2]);
 
-  return <video ref={videoRef} controls />;
+  return (
+    <>
+      <video ref={videoRef1} controls />
+      <video ref={videoRef2} controls />
+    </>
+  );
 };
 
 export default Test;
