@@ -97,7 +97,7 @@ const Navbar: React.FC<Props> = ({ toggleForm }) => {
       </div>
 
       <div
-        className={`w-[10%] h-max bg-[#2F2F35] shadow-lg shadow-black absolute top-[9vh] right-[1%] ${
+        className={`w-[10%] h-max bg-[#2F2F35] shadow-lg shadow-black absolute top-[9vh] right-[1%] z-30 ${
           isMenuVisible ? "" : "hidden"
         }`}
       >
