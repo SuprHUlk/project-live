@@ -81,7 +81,7 @@ const Navbar: React.FC<Props> = ({ toggleForm }) => {
               </button>
             )}
           </div>
-          {!isDashboard ||
+          {/* {!isDashboard ||
             (!isSetting && (
               <Button
                 color="error"
@@ -91,7 +91,7 @@ const Navbar: React.FC<Props> = ({ toggleForm }) => {
               >
                 <CiStreamOn className="text-xl" />
               </Button>
-            ))}
+            ))} */}
           <div className="w-[20%] h-[8vh] flex justify-center items-center  ">
             <button
               className="w-[80%] h-[5vh] flex justify-center items-center rounded-md hover:bg-[#2F2F35]"

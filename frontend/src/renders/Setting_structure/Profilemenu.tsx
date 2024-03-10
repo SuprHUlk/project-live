@@ -1,8 +1,9 @@
 import { Button } from "@mui/material";
 import { useState } from "react";
-
+import { CiInstagram, CiYoutube } from "react-icons/ci";
+import { FaXTwitter } from "react-icons/fa6";
 import { changeUsername } from "../../services/setting-service";
-
+import { FaDiscord } from "react-icons/fa";
 export default function Profilemenu() {
   const [username, setUsername] = useState(localStorage.getItem("username")!);
   const storedUsername = localStorage.getItem("username") ?? "DefaultUsername";
@@ -211,44 +212,56 @@ export default function Profilemenu() {
               </div>
             </div>
           </div>
-          <div className="w-[100%] h-[20vh] bg-[#222225] mt-[5%] rounded-md ">
+          <div className="w-[100%] h-[20vh] bg-[#222225] mt-[5%] rounded-md">
             <div className="w-[100%] h-[5vh] border-b-[1px] flex justify-start items-center pl-[2%]">
               Socials
             </div>
             <div className="w-[100%] h-[15vh] flex justify-center flex-col items-center">
               <div className="w-[100%] h-[10vh] flex justify-center items-center">
+                <label className="text-2xl relative left-[5%] text-blue-500 ">
+                  <CiInstagram />
+                </label>
                 <input
                   placeholder="Instagram"
                   value={instagram}
                   onChange={(e) => setInstagram(e.target.value)}
-                  className={`pl-[2%] bg-[#414146] w-[20%] h-[6vh] rounded-md ml-[2%] ${
+                  className={`pl-[4%] bg-[#414146] w-[20%] h-[6vh] rounded-md ml-[2%] ${
                     socialsEditMode ? "" : "pointer-events-none"
                   }`}
                   disabled={!socialsEditMode}
                 />
+                <label className="text-2xl relative left-[5%] text-blue-500">
+                  <FaXTwitter />
+                </label>
                 <input
-                  placeholder="Twitter"
+                  placeholder="X.com"
                   value={twitter}
                   onChange={(e) => setTwitter(e.target.value)}
-                  className={`pl-[2%] bg-[#414146] w-[20%] h-[6vh] rounded-md ml-[2%] ${
+                  className={`pl-[4%] bg-[#414146] w-[20%] h-[6vh] rounded-md ml-[2%] ${
                     socialsEditMode ? "" : "pointer-events-none"
                   }`}
                   disabled={!socialsEditMode}
                 />
+                <label className="text-2xl relative left-[5%] text-blue-500">
+                  <CiYoutube />
+                </label>
                 <input
                   placeholder="YouTube"
                   value={youtube}
                   onChange={(e) => setYoutube(e.target.value)}
-                  className={`pl-[2%] bg-[#414146] w-[20%] h-[6vh] rounded-md ml-[2%] ${
+                  className={`pl-[4%] bg-[#414146] w-[20%] h-[6vh] rounded-md ml-[2%] ${
                     socialsEditMode ? "" : "pointer-events-none"
                   }`}
                   disabled={!socialsEditMode}
                 />
+                <label className="text-2xl relative left-[5%] text-blue-500">
+                  <FaDiscord />
+                </label>
                 <input
                   placeholder="Discord"
                   value={discord}
                   onChange={(e) => setDiscord(e.target.value)}
-                  className={`pl-[2%] bg-[#414146] w-[20%] h-[6vh] rounded-md ml-[2%] ${
+                  className={`pl-[4%] bg-[#414146] w-[20%] h-[6vh] rounded-md ml-[2%] ${
                     socialsEditMode ? "" : "pointer-events-none"
                   }`}
                   disabled={!socialsEditMode}
