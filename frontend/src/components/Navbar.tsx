@@ -1,15 +1,8 @@
-import {
-  CiUser,
-  CiLogout,
-  CiSettings,
-  CiSearch,
-  CiStreamOn,
-} from "react-icons/ci";
+import { CiUser, CiLogout, CiSettings, CiSearch } from "react-icons/ci";
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom"; // Import useLocation hook
 import { logout } from "../services/auth-service";
 import { useNavigate } from "react-router-dom";
-import { Button } from "@mui/material";
 import GoliveDashboard from "../renders/GoLiveMenu/GoliveDashboard";
 
 interface Props {
