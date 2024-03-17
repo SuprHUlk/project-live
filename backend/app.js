@@ -24,17 +24,14 @@ mongoose
   });
 
 app.use((req, res, next) => {
-  const allowedOrigins = ["http://localhost:4200"];
-
+  const allowedOrigins = ["http://localhost:4200", ["http://localhost:8080"]];
   const origin = req.headers.origin;
-
   if (allowedOrigins.includes(origin)) {
     res.setHeader("Access-Control-Allow-Origin", origin);
   }
-
   res.setHeader(
     "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+    "Origin, X-Requested-With, Content-Type, Accept, Authorization, Host, X-Real-IP, X-Forwarded-For, X-Forwarded-Proto"
   );
   res.setHeader(
     "Access-Control-Allow-Methods",
@@ -53,15 +50,9 @@ app.use((req, res, next) => {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-// app.use("/stop", async (req, res, next) => {
-//   console.log(req.body);
-// const key = req.body.key;
-// console.log(req.body);
-// if (key === "test") {
-//   return res.status(200).send();
-// }
-
-// res.status(403).send();
+// app.use("/test", (req, res, next) => {
+//   console.log(req.headers);
+//   res.status(200).json({ test: "test" });
 // });
 
 app.use("/auth", authRoute);

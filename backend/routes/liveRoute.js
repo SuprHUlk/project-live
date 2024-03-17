@@ -1,5 +1,10 @@
 const express = require("express");
-const { verify, details, stop } = require("../services/liveService");
+const {
+  verify,
+  details,
+  stop,
+  countViewers,
+} = require("../services/liveService");
 
 const router = express.Router();
 
@@ -18,6 +23,14 @@ router.post("/stop", async (req, res, next) => {
   const result = await stop(username);
 
   res.status(result.code).send();
+});
+
+router.post("/countViewers", async (req, res, next) => {
+  const username = req.body.username;
+
+  const result = await countViewers(username);
+
+  res.status(result.code).send(result);
 });
 
 module.exports = router;
