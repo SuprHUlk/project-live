@@ -1,8 +1,9 @@
 const app = require("./app");
 const debug = require("debug")("node-angular");
 const http = require("http");
+const socketIo = require("socket.io");
 
-const normalizePort = val => {
+const normalizePort = (val) => {
   var port = parseInt(val, 10);
 
   if (isNaN(port)) {
@@ -18,7 +19,7 @@ const normalizePort = val => {
   return false;
 };
 
-const onError = error => {
+const onError = (error) => {
   if (error.syscall !== "listen") {
     throw error;
   }
@@ -47,6 +48,33 @@ const port = normalizePort(process.env.PORT || "3000");
 app.set("port", port);
 
 const server = http.createServer(app);
+
+// Create Socket.IO instance and attach it to the server
+const io = socketIo(server, {
+  cors: {
+    origin: "*", // Allow requests from any origin
+    methods: ["GET", "POST"], // Allow GET and POST requests
+    credentials: true, // Allow sending cookies
+  },
+});
+
+io.on("connection", (socket) => {
+  console.log("New client connected", socket.id);
+  const { room } = data;
+  // Example: handle a chat message event
+  socket.on("chat message", (msg) => {
+    console.log("message: " + msg);
+    io.emit("chat message", msg); // Broadcast the message to all connected clients
+  });
+
+  // Handle disconnection
+  socket.on("disconnect", () => {
+    console.log("Client disconnected");
+  });
+});
+
 server.on("error", onError);
 server.on("listening", onListening);
 server.listen(port);
+
+module.exports = { io };

@@ -5,9 +5,11 @@ import Dashboard from "./components/Dashboard";
 import PrivateRoutes from "./shared/PrivateRoutes";
 import Auth from "./components/Auth";
 import Alert from "./components/Alert";
+import Setting from "./components/Setting";
+// import Test from "./components/Test";
+
 import { useState } from "react";
 import { SnackbarCloseReason } from "@mui/material";
-import Setting from "./components/Setting";
 
 function App() {
   const [message, setMessage] = useState("");
@@ -44,15 +46,15 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<Auth openAlert={openAlert} />} />
+          {/* <Route path="/dash" element={<Dashboard openAlert={openAlert} />} /> */}
           <Route element={<PrivateRoutes />}>
             <Route
               path="/dashboard"
               element={<Dashboard openAlert={openAlert} />}
             />
           </Route>
-          <Route element={<PrivateRoutes />}>
-            <Route path="/settings" element={<Setting />} />
-          </Route>
+          <Route path="/settings" element={<Setting />} />
+          {/* <Route path="/test" element={<Test />} /> */}
         </Routes>
       </Router>
       <Alert

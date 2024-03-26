@@ -1,6 +1,6 @@
 import Navbar from "./Navbar";
 import Sidebar from "../renders/Dashboard_structure/Sidebar";
-
+import SeletCad from "../renders/Dashboard_structure/SelectCat";
 interface Props {
   openAlert: (message: string, isDanger: boolean) => void;
 }
@@ -14,6 +14,7 @@ function Dashboard({ openAlert }: Props) {
         id="mainbg"
       >
         <Sidebar openAlert={openAlert} />
+        <SeletCad />
       </div>
     </>
   );

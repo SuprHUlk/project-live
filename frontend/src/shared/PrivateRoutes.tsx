@@ -1,6 +1,6 @@
-import { Outlet, Navigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import { idToken } from '../services/verify-service';
+import { Outlet, Navigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { idToken } from "../services/verify-service";
 
 const PrivateRoutes = () => {
   const [verified, setVerified] = useState<boolean | null>(null);
@@ -11,7 +11,7 @@ const PrivateRoutes = () => {
         const verified = await idToken();
         setVerified(verified);
       } catch (error) {
-        console.error('Error verifying token:', error);
+        console.error("Error verifying token:", error);
         setVerified(false);
       }
     };

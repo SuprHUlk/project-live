@@ -5,3 +5,13 @@
 .showhide::-webkit-scrollbar {
   display: none;
 }
+
+.custom-container::-webkit-scrollbar {
+  width: 10px;
+}
+.custom-container::-webkit-scrollbar-track {
+  background-color: rgb(53, 53, 53);
+}
+.custom-container::-webkit-scrollbar-thumb {
+  background-color: rgb(84, 84, 84);
+}

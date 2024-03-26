@@ -1,15 +1,8 @@
-import {
-  CiUser,
-  CiLogout,
-  CiSettings,
-  CiSearch,
-  CiStreamOn,
-} from "react-icons/ci";
+import { CiUser, CiLogout, CiSettings, CiSearch } from "react-icons/ci";
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom"; // Import useLocation hook
 import { logout } from "../services/auth-service";
 import { useNavigate } from "react-router-dom";
-import { Button } from "@mui/material";
 import GoliveDashboard from "../renders/GoLiveMenu/GoliveDashboard";
 
 interface Props {
@@ -81,7 +74,7 @@ const Navbar: React.FC<Props> = ({ toggleForm }) => {
               </button>
             )}
           </div>
-          {!isDashboard ||
+          {/* {!isDashboard ||
             (!isSetting && (
               <Button
                 color="error"
@@ -91,7 +84,7 @@ const Navbar: React.FC<Props> = ({ toggleForm }) => {
               >
                 <CiStreamOn className="text-xl" />
               </Button>
-            ))}
+            ))} */}
           <div className="w-[20%] h-[8vh] flex justify-center items-center  ">
             <button
               className="w-[80%] h-[5vh] flex justify-center items-center rounded-md hover:bg-[#2F2F35]"
@@ -104,7 +97,7 @@ const Navbar: React.FC<Props> = ({ toggleForm }) => {
       </div>
 
       <div
-        className={`w-[10%] h-max bg-[#2F2F35] shadow-lg shadow-black absolute top-[9vh] right-[1%] ${
+        className={`w-[10%] h-max bg-[#2F2F35] shadow-lg shadow-black absolute top-[9vh] right-[1%] z-30 ${
           isMenuVisible ? "" : "hidden"
         }`}
       >

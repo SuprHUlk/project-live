@@ -34,7 +34,7 @@ const google = async (username, email) => {
     );
 
     return { status: 201, msg: "Login successful", idToken: token };
-  } catch {
+  } catch (err) {
     return { status: 500, msg: "Login unsuccessful", error: err };
   }
 };
