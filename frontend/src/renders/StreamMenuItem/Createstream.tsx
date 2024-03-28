@@ -1,7 +1,12 @@
 import { useState } from "react";
 import { Button, Chip, Stack } from "@mui/material";
+import { details } from "../../services/setting-service";
 import "../../index.css";
-function CreateStream() {
+
+interface Props {
+  openAlert: (message: string, isDanger: boolean) => void;
+}
+const CreateStream: React.FC<Props> = ({ openAlert }) => {
   const [formData, setFormData] = useState<{
     title: string;
     description: string;
@@ -60,9 +65,19 @@ function CreateStream() {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(formData); // data console
+
+    const result: any = await details(formData);
+
+    if (result.code === 201) {
+      localStorage.setItem("streamId", result._id);
+    } else if (result.code === 400) {
+      openAlert("OBS Error: First start the stream from obs.", true);
+    } else if (result.code === 500) {
+      openAlert("Error: Unknown error occured.", true);
+    }
     // setFormData({
     //   title: "",
     //   description: "",   // this section is for input default.
@@ -169,6 +184,6 @@ function CreateStream() {
       </div>
     </>
   );
-}
+};
 
 export default CreateStream;

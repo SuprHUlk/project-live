@@ -53,7 +53,7 @@ function App() {
               element={<Dashboard openAlert={openAlert} />}
             />
           </Route>
-          <Route path="/settings" element={<Setting />} />
+          <Route path="/settings" element={<Setting openAlert={openAlert} />} />
           {/* <Route path="/test" element={<Test />} /> */}
         </Routes>
       </Router>

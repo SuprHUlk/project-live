@@ -60,3 +60,21 @@ export const get = async () => {
     return err;
   }
 };
+
+export const details = async (streamDetails: {
+  title: string;
+  description: string;
+  category: string;
+  tags: string[];
+  thumbnail: File | null;
+}) => {
+  try {
+    const result = await httpInterceptor.post(
+      "http://localhost:3000/live/details",
+      { streamDetails: streamDetails }
+    );
+    return { code: result.data.code, _id: result.data.result._id };
+  } catch (err: any) {
+    return { code: err.response.data.code, error: err.response.data.error };
+  }
+};

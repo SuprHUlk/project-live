@@ -7,7 +7,7 @@ const liveSchema = mongoose.Schema({
   description: { type: String, require: true },
   category: { type: String, require: true },
   thumbnail: { type: String },
-  ageRestricted: { type: Boolean },
+  tags: { type: [String] },
 });
 
 liveSchema.plugin(uniqueValidator);
