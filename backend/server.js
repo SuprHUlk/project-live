@@ -60,7 +60,6 @@ const io = socketIo(server, {
 
 io.on("connection", (socket) => {
   console.log("New client connected", socket.id);
-  const { room } = data;
   // Example: handle a chat message event
   socket.on("chat message", (msg) => {
     console.log("message: " + msg);
