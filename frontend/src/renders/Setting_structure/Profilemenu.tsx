@@ -1,22 +1,42 @@
 import { Button } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CiInstagram, CiYoutube } from "react-icons/ci";
 import { FaXTwitter } from "react-icons/fa6";
-import { changeUsername } from "../../services/setting-service";
+import {
+  changeUsername,
+  changeBio,
+  changeSocials,
+  get,
+} from "../../services/setting-service";
 import { FaDiscord } from "react-icons/fa";
 export default function Profilemenu() {
   const [username, setUsername] = useState(localStorage.getItem("username")!);
   const storedUsername = localStorage.getItem("username") ?? "DefaultUsername";
-  const [bio, setBio] = useState(localStorage.getItem("bio") || "");
-  const [instagram, setInstagram] = useState(
-    localStorage.getItem("instagram") || ""
-  );
-  const [twitter, setTwitter] = useState(localStorage.getItem("twitter") || "");
-  const [youtube, setYoutube] = useState(localStorage.getItem("youtube") || "");
-  const [discord, setDiscord] = useState(localStorage.getItem("discord") || "");
+  const [bio, setBio] = useState("");
+  const [instagram, setInstagram] = useState("");
+  const [twitter, setTwitter] = useState("");
+  const [youtube, setYoutube] = useState("");
+  const [discord, setDiscord] = useState("");
   const [editMode, setEditMode] = useState(false);
   const [bioEditMode, setBioEditMode] = useState(false);
   const [socialsEditMode, setSocialsEditMode] = useState(false);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const result = await get();
+        setBio(result.bio);
+        setInstagram(result.socials.instagram);
+        setDiscord(result.socials.discord);
+        setYoutube(result.socials.youtube);
+        setTwitter(result.socials.twitter);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const handleEditClick = () => {
     setEditMode(true);
@@ -38,8 +58,9 @@ export default function Profilemenu() {
     setBioEditMode(true);
   };
 
-  const handleSaveClickBio = () => {
-    localStorage.setItem("bio", bio);
+  const handleSaveClickBio = async () => {
+    const result = await changeBio(bio);
+    setBio(result);
     handleCancelClickBio();
   };
 
@@ -52,11 +73,17 @@ export default function Profilemenu() {
     setSocialsEditMode(true);
   };
 
-  const handleSaveClickSocials = () => {
-    localStorage.setItem("instagram", instagram);
-    localStorage.setItem("twitter", twitter);
-    localStorage.setItem("youtube", youtube);
-    localStorage.setItem("discord", discord);
+  const handleSaveClickSocials = async () => {
+    const result = await changeSocials({
+      instagram: instagram,
+      discord: discord,
+      youtube: youtube,
+      twitter: twitter,
+    });
+    setInstagram(result.instagram);
+    setDiscord(result.discord);
+    setYoutube(result.youtube);
+    setTwitter(result.twitter);
     handleCancelClickSocials();
   };
 

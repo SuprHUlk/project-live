@@ -8,6 +8,13 @@ const userSchema = mongoose.Schema({
   profilePic: { type: String },
   isLive: { type: Boolean },
   followerCount: { type: Number, require: true },
+  bio: { type: String },
+  socials: {
+    instagram: { type: String },
+    twitter: { type: String },
+    youtube: { type: String },
+    discord: { type: String },
+  },
   followingList: [
     {
       followingId: { type: String, required: true },

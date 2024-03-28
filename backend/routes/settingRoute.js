@@ -1,7 +1,13 @@
 const express = require("express");
 
 const tokenValidator = require("../shared/tokenValidator");
-const { changeUsername, changePfp } = require("../services/settingService");
+const {
+  changeUsername,
+  changePfp,
+  changeBio,
+  changeSocials,
+  get,
+} = require("../services/settingService");
 
 const router = express.Router();
 
@@ -16,9 +22,33 @@ router.post("/changeUsername", tokenValidator, async (req, res, next) => {
 
 router.post("/changePfp", tokenValidator, async (req, res, next) => {
   const newPfp = req.body.newPfp;
-  const token = req.header.authorization.split(" ")[1];
+  const token = req.headers.authorization.split(" ")[1];
 
-  const result = await changeUsername(newPfp, token);
+  const result = await changePfp(newPfp, token);
+
+  return res.status(result.code).json(result);
+});
+
+router.post("/changeBio", tokenValidator, async (req, res, next) => {
+  const newBio = req.body.newBio;
+  const token = req.headers.authorization.split(" ")[1];
+
+  const result = await changeBio(newBio, token);
+
+  return res.status(result.code).json(result);
+});
+
+router.post("/changeSocials", tokenValidator, async (req, res, next) => {
+  const newSocials = req.body.newSocials;
+  const token = req.headers.authorization.split(" ")[1];
+  const result = await changeSocials(newSocials, token);
+
+  return res.status(result.code).json(result);
+});
+
+router.get("/get", tokenValidator, async (req, res, next) => {
+  const token = req.headers.authorization.split(" ")[1];
+  const result = await get(token);
 
   return res.status(result.code).json(result);
 });
