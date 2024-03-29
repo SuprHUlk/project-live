@@ -7,6 +7,7 @@ const verifyRoute = require("./routes/verifyRoute");
 const followingRoute = require("./routes/followingRoute");
 const settingRoute = require("./routes/settingRoute");
 const liveRoute = require("./routes/liveRoute");
+const dashboardRoute = require("./routes/dashboardRoute");
 
 const app = express();
 
@@ -60,5 +61,6 @@ app.use("/verify", verifyRoute);
 app.use("/following", followingRoute);
 app.use("/setting", settingRoute);
 app.use("/live", liveRoute);
+app.use("/dashboard", dashboardRoute);
 
 module.exports = app;

@@ -50,7 +50,9 @@ const details = async (streamDetails, token) => {
     const username = decodedToken.username;
     const _id = decodedToken.userId;
 
-    const isLive = userModel.findById(_id).isLive;
+    const user = await userModel.findById(_id);
+    const isLive = user.isLive;
+
     if (!isLive) {
       return { code: 400, error: "Not live" };
     }

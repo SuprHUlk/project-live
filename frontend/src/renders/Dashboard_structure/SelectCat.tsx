@@ -2,7 +2,22 @@ import { Button } from "@mui/material";
 import i1 from "../../assets/1.jpg";
 import i2 from "../../assets/2.jpg";
 import i3 from "../../assets/3.jpg";
+
+import { liveStreams } from "../../services/dashboard-service";
+import { useEffect } from "react";
+
 export default function SelectCat() {
+  useEffect(() => {
+    const fetch = async () => {
+      try {
+        const result = await liveStreams();
+        console.log(result);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetch();
+  }, []);
   return (
     <>
       <div className="w-[82%] h-[92vh] absolute top-[8vh] left-[18%] flex justify-center items-center">
