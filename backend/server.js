@@ -49,7 +49,6 @@ app.set("port", port);
 
 const server = http.createServer(app);
 
-// Create Socket.IO instance and attach it to the server
 const io = socketIo(server, {
   cors: {
     origin: "*", // Allow requests from any origin
@@ -58,15 +57,42 @@ const io = socketIo(server, {
   },
 });
 
+const Message = require("./models/messageModel");
+
 io.on("connection", (socket) => {
-  console.log("New client connected", socket.id);
-  // Example: handle a chat message event
-  socket.on("chat message", (msg) => {
-    console.log("message: " + msg);
-    io.emit("chat message", msg); // Broadcast the message to all connected clients
+  console.log("New client connected");
+
+  socket.on("join room", async (roomID) => {
+    socket.join(roomID);
+    console.log(`User joined room ${roomID}`);
+    try {
+      // Fetch last 50 messages from MongoDB and emit to the user
+      const messages = await Message.find({ roomId: roomID })
+        .sort({ timestamp: -1 })
+        .limit(50);
+      socket.emit("load messages", messages);
+    } catch (err) {
+      // Handle any errors
+      console.error(err);
+    }
   });
 
-  // Handle disconnection
+  socket.on("chat message", async (data) => {
+    const { roomId, msg } = data;
+    try {
+      // Save the message to MongoDB
+      const message = new Message({
+        roomId: roomId,
+        text: msg,
+        timeStamp: new Date(),
+      });
+      const result = await message.save();
+      io.to(roomId).emit("chat message", result);
+    } catch (err) {
+      console.error(err);
+    }
+  });
+
   socket.on("disconnect", () => {
     console.log("Client disconnected");
   });
@@ -75,5 +101,3 @@ io.on("connection", (socket) => {
 server.on("error", onError);
 server.on("listening", onListening);
 server.listen(port);
-
-module.exports = { io };

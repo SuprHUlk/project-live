@@ -6,7 +6,7 @@ import PrivateRoutes from "./shared/PrivateRoutes";
 import Auth from "./components/Auth";
 import Alert from "./components/Alert";
 import Setting from "./components/Setting";
-// import Test from "./components/Test";
+import Stream from "./components/Stream";
 
 import { useState } from "react";
 import { SnackbarCloseReason } from "@mui/material";
@@ -46,15 +46,20 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<Auth openAlert={openAlert} />} />
-          {/* <Route path="/dash" element={<Dashboard openAlert={openAlert} />} /> */}
           <Route element={<PrivateRoutes />}>
             <Route
               path="/dashboard"
               element={<Dashboard openAlert={openAlert} />}
             />
+            <Route
+              path="/stream/:username"
+              element={<Stream openAlert={openAlert} />}
+            />
+            <Route
+              path="/settings"
+              element={<Setting openAlert={openAlert} />}
+            />
           </Route>
-          <Route path="/settings" element={<Setting openAlert={openAlert} />} />
-          {/* <Route path="/test" element={<Test />} /> */}
         </Routes>
       </Router>
       <Alert
