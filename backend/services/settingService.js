@@ -45,4 +45,52 @@ const changePfp = async (newPfp, token) => {
   }
 };
 
-module.exports = { changeUsername, changePfp };
+const changeBio = async (newBio, token) => {
+  try {
+    const _id = jwt.verify(token, process.env.SECRET).userId;
+
+    const data = { bio: newBio };
+    const result = await userModel.findByIdAndUpdate(
+      _id,
+      { $set: data },
+      { new: true }
+    );
+
+    return { code: 201, msg: "Update Successful", result: result.bio };
+  } catch (e) {
+    console.log(e);
+    return { code: 400, msg: "Update unsuccessful", error: e };
+  }
+};
+
+const changeSocials = async (newSocials, token) => {
+  try {
+    const _id = jwt.verify(token, process.env.SECRET).userId;
+    const data = { socials: newSocials };
+    const result = await userModel.findByIdAndUpdate(
+      _id,
+      { $set: data },
+      { new: true }
+    );
+
+    return { code: 201, msg: "Update Successful", result: result.socials };
+  } catch (e) {
+    return { code: 400, msg: "Update unsuccessful", error: e };
+  }
+};
+
+const get = async (token) => {
+  try {
+    const _id = jwt.verify(token, process.env.SECRET).userId;
+    const user = await userModel.findById(_id);
+    const result = {
+      bio: user.bio,
+      socials: user.socials,
+    };
+    return { code: 200, msg: "Fetch successful", result: result };
+  } catch (e) {
+    return { code: 400, msg: "Fetch unsuccessful", error: e };
+  }
+};
+
+module.exports = { changeUsername, changePfp, changeBio, changeSocials, get };

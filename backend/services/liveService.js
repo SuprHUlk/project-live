@@ -1,4 +1,5 @@
 const axios = require("axios");
+const jwt = require("jsonwebtoken");
 
 const userModel = require("../models/userModel");
 const liveModel = require("../models/liveModel");
@@ -29,11 +30,13 @@ const stop = async (username) => {
       isLive: false,
     };
 
-    const result = await userModel.findOneAndUpdate(
+    await userModel.findOneAndUpdate(
       { username: username },
       { $set: data },
       { new: true }
     );
+
+    await liveModel.deleteOne({ username: username });
 
     return { code: 200 };
   } catch (e) {
@@ -41,29 +44,35 @@ const stop = async (username) => {
   }
 };
 
-const details = async (
-  username,
-  title,
-  description,
-  category,
-  thumbnail,
-  ageRestricted
-) => {
+const details = async (streamDetails, token) => {
   try {
+    const decodedToken = jwt.verify(token, process.env.SECRET);
+    const username = decodedToken.username;
+    const _id = decodedToken.userId;
+
+    const user = await userModel.findById(_id);
+    const isLive = user.isLive;
+
+    if (!isLive) {
+      return { code: 400, error: "Not live" };
+    }
+
+    const { title, description, category, tags } = streamDetails;
     const data = new liveModel({
       username: username,
       title: title,
       description: description,
       category: category,
-      thumbnail: thumbnail,
-      ageRestricted: ageRestricted,
+      // thumbnail: thumbnail,
+      tags: tags,
     });
 
     const result = await data.save();
 
     return { code: 201, result: result };
   } catch (e) {
-    return { code: 400, error: e };
+    console.log(e);
+    return { code: 500, error: e };
   }
 };
 

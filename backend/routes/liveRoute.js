@@ -5,6 +5,7 @@ const {
   stop,
   countViewers,
 } = require("../services/liveService");
+const tokenValidator = require("../shared/tokenValidator");
 
 const router = express.Router();
 
@@ -25,12 +26,19 @@ router.post("/stop", async (req, res, next) => {
   res.status(result.code).send();
 });
 
-router.post("/countViewers", async (req, res, next) => {
+router.post("/countViewers", tokenValidator, async (req, res, next) => {
   const username = req.body.username;
 
   const result = await countViewers(username);
 
   res.status(result.code).send(result);
+});
+
+router.post("/details", tokenValidator, async (req, res, next) => {
+  const streamDetails = req.body.streamDetails;
+  const token = req.headers.authorization.split(" ")[1];
+  const result = await details(streamDetails, token);
+  return res.status(result.code).json(result);
 });
 
 module.exports = router;
