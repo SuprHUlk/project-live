@@ -19,10 +19,10 @@ export default function CurrentStreamShow() {
             Stream ID : <span className="text-gray-400">154354</span>
           </div>
           <div className="mt-1 ml-1 flex gap-1">
-            <Button variant="contained" color="primary">
+            {/* <Button variant="contained" color="primary">
               <FaEdit />
-            </Button>
-            <Button variant="contained" color="error">
+            </Button> */}
+            <Button variant="contained" color="error" sx={{ width: "80%" }}>
               <MdDelete />
             </Button>
           </div>

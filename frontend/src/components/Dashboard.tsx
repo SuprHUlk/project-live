@@ -1,11 +1,22 @@
+import { useState } from "react";
 import Navbar from "./Navbar";
 import Sidebar from "../renders/Dashboard_structure/Sidebar";
-import SeletCad from "../renders/Dashboard_structure/SelectCat";
+import SelectCat from "../renders/Dashboard_structure/SelectCat";
+import Irlshow from "../renders/showcad/Irlshow";
+import Gameshow from "../renders/showcad/gameshow";
+import Othershow from "../renders/showcad/othershow";
+
 interface Props {
   openAlert: (message: string, isDanger: boolean) => void;
 }
 
 function Dashboard({ openAlert }: Props) {
+  const [activeComponent, setActiveComponent] = useState("SelectCat");
+
+  const handleButtonClick = (componentName: string) => {
+    setActiveComponent(componentName);
+  };
+
   return (
     <>
       <Navbar />
@@ -14,9 +25,15 @@ function Dashboard({ openAlert }: Props) {
         id="mainbg"
       >
         <Sidebar openAlert={openAlert} />
-        <SeletCad />
+        {activeComponent === "SelectCat" && (
+          <SelectCat handleButtonClick={handleButtonClick} />
+        )}
+        {activeComponent === "Irlshow" && <Irlshow />}
+        {activeComponent === "Gameshow" && <Gameshow />}
+        {activeComponent === "Othershow" && <Othershow />}
       </div>
     </>
   );
 }
+
 export default Dashboard;

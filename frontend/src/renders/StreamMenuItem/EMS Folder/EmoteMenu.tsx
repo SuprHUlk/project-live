@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button } from "@mui/material";
-import ic from "../../../assets/bear_7201640.png";
+// import ic from "../../../assets/bear_7201640.png";
 
 export default function EmoteMenu() {
   const [emotes, setEmotes] = useState([]);
@@ -11,11 +11,11 @@ export default function EmoteMenu() {
     setEmotes(updatedEmotes);
   };
 
-  const handleAddEmote = (e) => {
+  const handleAddEmote = (e: any) => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
-      reader.onload = (event) => {
+      reader.onload = (event: any) => {
         const newEmote = {
           name: file.name,
           url: event.target.result,

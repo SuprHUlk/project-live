@@ -62,7 +62,7 @@ function CreateStream() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(formData); // data console
+    console.log(formData); // data console   here pass-on data
     // setFormData({
     //   title: "",
     //   description: "",   // this section is for input default.

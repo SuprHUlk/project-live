@@ -46,7 +46,6 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<Auth openAlert={openAlert} />} />
-          {/* <Route path="/dash" element={<Dashboard openAlert={openAlert} />} /> */}
           <Route element={<PrivateRoutes />}>
             <Route
               path="/dashboard"
