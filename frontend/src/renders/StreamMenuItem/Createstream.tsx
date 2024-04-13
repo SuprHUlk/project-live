@@ -1,7 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button, Chip, Stack } from "@mui/material";
+import { details, getDetails } from "../../services/setting-service";
 import "../../index.css";
-function CreateStream() {
+
+interface Props {
+  openAlert: (message: string, isDanger: boolean) => void;
+}
+const CreateStream: React.FC<Props> = ({ openAlert }) => {
   const [formData, setFormData] = useState<{
     title: string;
     description: string;
@@ -14,6 +19,24 @@ function CreateStream() {
     category: "",
     tags: [],
     thumbnail: null,
+  });
+
+  useEffect(() => {
+    const fetch = async () => {
+      try {
+        const result = await getDetails();
+        if (result.code === 200) {
+          setFormData({
+            title: result.result.title,
+            description: result.result.title,
+            category: result.result.category,
+            tags: result.result.tags,
+            thumbnail: result.result.thumnail,
+          });
+        }
+      } catch (error) {}
+    };
+    fetch();
   });
 
   const [newTag, setNewTag] = useState("");
@@ -60,16 +83,23 @@ function CreateStream() {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(formData); // data console   here pass-on data
-    // setFormData({
-    //   title: "",
-    //   description: "",   // this section is for input default.
-    //   category: "",
-    //   tags: [],
-    //   thumbnail: null,
-    // });
+    const result: any = await details(formData);
+
+    if (result.code === 201) {
+      localStorage.setItem("streamId", result._id);
+      openAlert("You are live: Lego.", false);
+    } else if (result.code === 400 && result.error === "Not live") {
+      openAlert("OBS Error: First start the stream from obs.", true);
+    } else if (result.code === 400 && result.error === "Already live") {
+      openAlert(
+        "Already Live: Stop the stream from obs to edit the details.",
+        true
+      );
+    } else if (result.code === 500) {
+      openAlert("Error: Unknown error occured.", true);
+    }
   };
 
   return (
@@ -169,6 +199,6 @@ function CreateStream() {
       </div>
     </>
   );
-}
+};
 
 export default CreateStream;

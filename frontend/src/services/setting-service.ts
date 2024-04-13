@@ -78,3 +78,15 @@ export const details = async (streamDetails: {
     return { code: err.response.data.code, error: err.response.data.error };
   }
 };
+
+export const getDetails = async () => {
+  try {
+    const result = await httpInterceptor.get(
+      "http://localhost:3000/live/getDetails?streamId=" +
+        localStorage.getItem("streamId")
+    );
+    return { code: result.data.code, result: result.data.result };
+  } catch (error: any) {
+    return { code: error.response.data.code, result: error.response.data };
+  }
+};

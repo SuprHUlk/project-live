@@ -16,7 +16,10 @@ export default function CurrentStreamShow() {
         </div>
         <div className="w-[60%] h-[12vh]">
           <div className="ml-1">
-            Stream ID : <span className="text-gray-400">154354</span>
+            Stream ID :{" "}
+            <span className="text-gray-400">
+              {localStorage.getItem("streamId")}
+            </span>
           </div>
           <div className="mt-1 ml-1 flex gap-1">
             {/* <Button variant="contained" color="primary">

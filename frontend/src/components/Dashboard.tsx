@@ -28,9 +28,9 @@ function Dashboard({ openAlert }: Props) {
         {activeComponent === "SelectCat" && (
           <SelectCat handleButtonClick={handleButtonClick} />
         )}
-        {activeComponent === "Irlshow" && <Irlshow />}
-        {activeComponent === "Gameshow" && <Gameshow />}
-        {activeComponent === "Othershow" && <Othershow />}
+        {activeComponent === "Irlshow" && <Irlshow openAlert={openAlert} />}
+        {activeComponent === "Gameshow" && <Gameshow openAlert={openAlert} />}
+        {activeComponent === "Othershow" && <Othershow openAlert={openAlert} />}
       </div>
     </>
   );

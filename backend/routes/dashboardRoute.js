@@ -6,7 +6,8 @@ const tokenValidator = require("../shared/tokenValidator");
 const router = express.Router();
 
 router.get("/liveStreams", tokenValidator, async (req, res, next) => {
-  const result = await liveStreams();
+  const category = req.query.category;
+  const result = await liveStreams(category);
   return res.status(result.code).json(result);
 });
 

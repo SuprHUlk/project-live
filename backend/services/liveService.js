@@ -50,6 +50,11 @@ const details = async (streamDetails, token) => {
     const username = decodedToken.username;
     const _id = decodedToken.userId;
 
+    const stream = await liveModel.findOne({ username: username });
+    if (stream) {
+      return { code: 400, error: "Already live" };
+    }
+
     const user = await userModel.findById(_id);
     const isLive = user.isLive;
 
@@ -73,6 +78,18 @@ const details = async (streamDetails, token) => {
   } catch (e) {
     console.log(e);
     return { code: 500, error: e };
+  }
+};
+
+const getDetails = async (_id) => {
+  try {
+    const stream = await liveModel.findById(_id);
+    if (stream) {
+      return { code: 200, result: stream };
+    }
+    return { code: 400, msg: "No stream found" };
+  } catch (error) {
+    return { code: 500, error: error };
   }
 };
 
@@ -145,4 +162,4 @@ const getMonthIndex = (month) => {
   return months.indexOf(month);
 };
 
-module.exports = { verify, details, stop, countViewers };
+module.exports = { verify, details, getDetails, stop, countViewers };

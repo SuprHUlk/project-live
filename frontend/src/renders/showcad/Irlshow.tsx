@@ -1,14 +1,30 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button, Chip } from "@mui/material";
 import imgjs from "../../assets/justchatting.webp";
 import pfp from "../../assets/pfp.jpg";
 import { Link } from "react-router-dom";
 
+import { liveStreams } from "../../services/dashboard-service";
+
+interface Props {
+  openAlert: (message: string, isDanger: boolean) => void;
+}
+
 // Sample array of tags
 const tagsArray = ["Gaming", "Music", "Art", "Fitness"];
 
-export default function Irlshow() {
+export default function Irlshow({ openAlert }: Props) {
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [streams, setStreams] = useState<
+    {
+      category: string;
+      description: string;
+      title: string;
+      username: string;
+      _id: string;
+      tags: string[];
+    }[]
+  >([]);
 
   const handleTagClick = (tag: any) => {
     if (selectedTags.includes(tag)) {
@@ -19,6 +35,22 @@ export default function Irlshow() {
       setSelectedTags([...selectedTags, tag]);
     }
   };
+
+  useEffect(() => {
+    const fetch = async () => {
+      try {
+        const result = await liveStreams("IRL");
+        if (result.length !== 0) {
+          setStreams(result);
+        } else {
+          //do something is nobody is live
+        }
+      } catch (error) {
+        openAlert("Error Occured: Please reload the page.", true);
+      }
+    };
+    fetch();
+  }, []);
 
   return (
     <div className="w-[82%] h-[92vh] absolute top-[8vh] left-[18%] bg-[#0E0E10] overflow-auto">

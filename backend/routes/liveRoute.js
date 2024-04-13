@@ -2,6 +2,7 @@ const express = require("express");
 const {
   verify,
   details,
+  getDetails,
   stop,
   countViewers,
 } = require("../services/liveService");
@@ -38,6 +39,12 @@ router.post("/details", tokenValidator, async (req, res, next) => {
   const streamDetails = req.body.streamDetails;
   const token = req.headers.authorization.split(" ")[1];
   const result = await details(streamDetails, token);
+  return res.status(result.code).json(result);
+});
+
+router.get("/getDetails", tokenValidator, async (req, res, next) => {
+  const _id = req.query.streamId;
+  const result = await getDetails(_id);
   return res.status(result.code).json(result);
 });
 
