@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "./index.css";
-
+import Test from "./components/Test";
 import Dashboard from "./components/Dashboard";
 import PrivateRoutes from "./shared/PrivateRoutes";
 import Auth from "./components/Auth";
@@ -59,6 +59,7 @@ function App() {
               path="/settings"
               element={<Setting openAlert={openAlert} />}
             />
+            <Route path="/test" element={<Test />} />
           </Route>
         </Routes>
       </Router>
