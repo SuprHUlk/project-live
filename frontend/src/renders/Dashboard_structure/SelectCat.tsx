@@ -1,7 +1,7 @@
 import { Button } from "@mui/material";
 import i1 from "../../assets/justchatting.webp";
-import i2 from "../../assets/gaming.webp";
-import i3 from "../../assets/3.jpg";
+import i2 from "../../assets/games.jpg";
+import i3 from "../../assets/IRL.jpg";
 
 interface SelectCatProps {
   handleButtonClick: (componentName: string) => void;

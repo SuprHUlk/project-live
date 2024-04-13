@@ -3,7 +3,7 @@ import { Button, Chip } from "@mui/material";
 import imgjs from "../../assets/justchatting.webp";
 import pfp from "../../assets/pfp.jpg";
 import { Link } from "react-router-dom";
-
+import { IoReturnDownBack } from "react-icons/io5";
 import { liveStreams } from "../../services/dashboard-service";
 
 interface Props {
@@ -63,6 +63,21 @@ export default function Irlshow({ openAlert }: Props) {
             <div className="m-2 w-[20%] h-[5vh] bg-blue-800/40 rounded-3xl flex justify-center items-center">
               IRL
             </div>
+          </div>
+          <div className="w-[100%]  h-[10vh] flex justify-end items-center">
+            <Button
+              variant="contained"
+              color="primary"
+              sx={{
+                width: "10%",
+                height: "5vh",
+                marginRight: "1%",
+                backgroundColor: "#24272C",
+              }}
+              onClick={() => window.location.reload()}
+            >
+              <IoReturnDownBack className="text-3xl" />
+            </Button>
           </div>
         </div>
         <div className="w-[100%] h-[5vh] ">

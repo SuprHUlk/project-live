@@ -44,16 +44,15 @@ const Navbar: React.FC<Props> = ({ toggleForm }) => {
         <div className="text-white font-bold w-[20%] h-[8vh] flex justify-between items-center pl-7">
           PROJECT LIVE
         </div>
-        {isDashboard ||
-          (isSetting && (
-            <div className="w-[20%] h-[8vh] flex justify-between items-center">
-              <CiSearch className="text-white relative left-[10%] text-2xl" />
-              <input
-                className="w-[100%] h-[5vh] bg-[#0E0E10] rounded-md border-[1px] border-gray-900 pl-[12%] text-white hover:bg-[#414146]"
-                placeholder="Search"
-              ></input>
-            </div>
-          ))}
+        {isDashboard && (
+          <div className="w-[20%] h-[8vh] flex justify-between items-center">
+            <CiSearch className="text-white relative left-[10%] text-2xl" />
+            <input
+              className="w-[100%] h-[5vh] bg-[#0E0E10] rounded-md border-[1px] border-gray-900 pl-[12%] text-white hover:bg-[#414146]"
+              placeholder="Search"
+            ></input>
+          </div>
+        )}
         <div className="w-[20%] h-[8vh]  flex justify-center items-center  ">
           <div className="w-[50%] h-[8vh] flex justify-center items-center gap-3">
             {!isDashboard && !isSetting && (
